@@ -6,8 +6,8 @@
 #define SIZE 20
 
 struct DataItem {
-   Elem data;
-   int key;
+  Elem data;
+  int key;
 };
 
 struct DataItem* hashArray[SIZE];
@@ -92,9 +92,9 @@ void display() {
    for(i = 0; i<SIZE; i++) {
 
       if(hashArray[i] != NULL)
-         printf(" (%d,%d)",hashArray[i]->key,hashArray[i]->data);
+        printf(" (%d,%d)",hashArray[i]->key,hashArray[i]->data);
       else
-         printf(" ~~ ");
+        printf(" ~~ ");
    }
 
    printf("\n");
