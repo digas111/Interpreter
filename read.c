@@ -1,9 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-
-#define bufSize 1024
-#define SIZE 5
+#include "read.h"
 
 char* dell_spaces(char *input) {
 
@@ -77,12 +75,5 @@ void file_to_llist() {
   }
 
   fclose(code);
-
-}
-
-int main() {
-
-  file_to_llist();
-  return 0;
 
 }

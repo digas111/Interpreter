@@ -3,13 +3,12 @@
 #include<stdlib.h>
 #include "hash.h"
 
-#define NHASH 4
-#define MULTIPLICADOR 31
 
-NODE *Hashtable[NHASH];
 
-NODE *new_node(char *name, int value, NODE *next) {
-  NODE *l = (NODE *) malloc (sizeof (NODE));
+HASHNODE *Hashtable[NHASH];
+
+HASHNODE *new_hashnode(char *name, int value, HASHNODE *next) {
+  HASHNODE *l = (HASHNODE *) malloc (sizeof (HASHNODE));
   NAME(l) = name;
   VALUE(l) = value;
   NEXT(l) = next;
@@ -28,7 +27,7 @@ unsigned int hash(char *str) {
  return res%NHASH;
 }
 
-NODE *lookup(char *name, int value, int create) {
+HASHNODE *lookup(char *name, int value, int create) {
 
  //se existir name na tabela de hash
  // retornar o seu valor
@@ -36,7 +35,7 @@ NODE *lookup(char *name, int value, int create) {
  //  criar o no com name e value
 
  unsigned int i = hash(name);
- NODE * l = Hashtable[i];
+ HASHNODE * l = Hashtable[i];
 
  while(l != NULL) {
   if (strcmp(name, NAME(l))==0) {
@@ -46,7 +45,7 @@ NODE *lookup(char *name, int value, int create) {
  }
 
  if (create) {
-  l = new_node(name, value,Hashtable[i]);
+  l = new_hashnode(name, value,Hashtable[i]);
   Hashtable[i] = l;
  }
 
@@ -56,7 +55,7 @@ NODE *lookup(char *name, int value, int create) {
 void print() {
 
   int i=0;
-  NODE *l;
+  HASHNODE *l;
 
   for(i=0; i<NHASH;i++) {
     if ((l = Hashtable[i])!=NULL) {

@@ -74,6 +74,8 @@ Elem *new_elem_int(ElemKind k, int v, char *n){
   e->kind = k;
   e->contents.inte.val = v;
   e->contents.inte.name = n;
+
+  return e;
 }
 
 Elem *new_elem_string(ElemKind k, char *c, char *n){
@@ -81,5 +83,5 @@ Elem *new_elem_string(ElemKind k, char *c, char *n){
   e->kind = k;
   e->contents.string.content = c;
   e->contents.string.name = n;
+  return e;
 }
-
