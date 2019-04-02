@@ -1,135 +1,75 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include "hash.h"
 
-#define SIZE 20
+#define NHASH 4
+#define MULTIPLICADOR 31
 
-struct DataItem {
-   int data;
-   int key;
-};
+NODE *Hashtable[NHASH];
 
-struct DataItem* hashArray[SIZE];
-struct DataItem* dummyItem;
-struct DataItem* item;
-
-int hashCode(int key) {
-  return key % SIZE;
+NODE *new_node(char *name, int value, NODE *next) {
+  NODE *l = (NODE *) malloc (sizeof (NODE));
+  NAME(l) = name;
+  VALUE(l) = value;
+  NEXT(l) = next;
+  return l;
 }
 
-struct DataItem *search(int key) {
-   //get the hash
-   int hashIndex = hashCode(key);
+unsigned int hash(char *str) {
+ unsigned int res = 0;
 
-   //move in array until an empty
-   while(hashArray[hashIndex] != NULL) {
+ while(*str != '\0'){
 
-      if(hashArray[hashIndex]->key == key)
-         return hashArray[hashIndex];
+  res = res * MULTIPLICADOR + *str;
+  str++;
 
-      //go to next cell
-      ++hashIndex;
-
-      //wrap around the table
-      hashIndex %= SIZE;
-   }
-
-   return NULL;
+ }
+ return res%NHASH;
 }
 
-void insert(int key,int data) {
+NODE *lookup(char *name, int value, int create) {
 
-   struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
-   item->data = data;
-   item->key = key;
+ //se existir name na tabela de hash
+ // retornar o seu valor
+ // se não exitir e create for 1
+ //  criar o no com name e value
 
-   //get the hash
-   int hashIndex = hashCode(key);
+ unsigned int i = hash(name);
+ NODE * l = Hashtable[i];
 
-   //move in array until an empty or deleted cell
-   while(hashArray[hashIndex] != NULL && hashArray[hashIndex]->key != -1) {
-      //go to next cell
-      ++hashIndex;
+ while(l != NULL) {
+  if (strcmp(name, NAME(l))==0) {
+   return l;
+  }
+  l = NEXT(l);
+ }
 
-      //wrap around the table
-      hashIndex %= SIZE;
-   }
+ if (create) {
+  l = new_node(name, value,Hashtable[i]);
+  Hashtable[i] = l;
+ }
 
-   hashArray[hashIndex] = item;
+ return l;
 }
 
-struct DataItem* delete(struct DataItem* item) {
-   int key = item->key;
+void print() {
 
-   //get the hash
-   int hashIndex = hashCode(key);
+  int i=0;
+  NODE *l;
 
-   //move in array until an empty
-   while(hashArray[hashIndex] != NULL) {
-
-      if(hashArray[hashIndex]->key == key) {
-         struct DataItem* temp = hashArray[hashIndex];
-
-         //assign a dummy item at deleted position
-         hashArray[hashIndex] = dummyItem;
-         return temp;
+  for(i=0; i<NHASH;i++) {
+    if ((l = Hashtable[i])!=NULL) {
+      while(l!=NULL) {
+        printf("NAME: %s - VALUE:%d\n", NAME(l),VALUE(l));
+        l = NEXT(l);
       }
+      printf("\n");
 
-      //go to next cell
-      ++hashIndex;
+    }
+    else {
+      printf("~~\n");
+    }
+  }
 
-      //wrap around the table
-      hashIndex %= SIZE;
-   }
-
-   return NULL;
-}
-
-void display() {
-   int i = 0;
-
-   for(i = 0; i<SIZE; i++) {
-
-      if(hashArray[i] != NULL)
-         printf("(%d,%d)",hashArray[i]->key,hashArray[i]->data);
-      else
-         printf(" ~~ ");
-   }
-
-   printf("\n");
-}
-
-int main() {
-   dummyItem = (struct DataItem*) malloc(sizeof(struct DataItem));
-   dummyItem->data = -1;
-   dummyItem->key = -1;
-
-   insert(1, 20);
-   insert(2, 70);
-   insert(42, 80);
-   insert(4, 25);
-   insert(12, 44);
-   insert(14, 32);
-   insert(17, 11);
-   insert(13, 78);
-   insert(37, 97);
-
-   display();
-   item = search(37);
-
-   if(item != NULL) {
-      printf("Element found: %d\n", item->data);
-   } else {
-      printf("Element not found\n");
-   }
-
-   delete(item);
-   item = search(37);
-
-   if(item != NULL) {
-      printf("Element found: %d\n", item->data);
-   } else {
-      printf("Element not found\n");
-   }
 }
