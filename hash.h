@@ -5,19 +5,22 @@
 #define VALUE(P)((P) -> value)
 #define NEXT(P)((P) -> next)
 
+#define NHASH 4
+#define MULTIPLICADOR 31
 
-typedef struct node {
+
+typedef struct hashnode {
  char *name;
  int value;
- struct node *next;
-}NODE;
+ struct hashnode *next;
+}HASHNODE;
 
 
 //----------------------------------------
 
 unsigned int hash(char *str);
-NODE *lookup(char *name, int value, int create);
-NODE *new_node(char *name, int value, NODE *next);
+HASHNODE *lookup(char *name, int value, int create);
+HASHNODE *new_hashnode(char *name, int value, HASHNODE *next);
 void print();
 
 //----------------------------------------
