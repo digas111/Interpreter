@@ -1,8 +1,7 @@
-typedef enum {ATRIB, ADD, SUB, MUL, IF_I, PRINT, READ, GOTO_I, LABEL} OpKind;
+typedef enum {ATRIB, ADD, SUB, MUL, IF_I, PRINT, READ, GOTO_I} OpKind;
 
-typedef enum {EMPTY, INT_CONST, STRING} ElemKind;
+typedef enum {EMPTY, INT_CONST, STRING, LABEL} ElemKind;
 
-//#define
 #define NXT(P)((P)->nxt)
 
 typedef struct {
@@ -11,17 +10,13 @@ typedef struct {
    struct {
       int val;
       char *name;
-    }int;
-    struct {
-      int *p;
-      char *name;
-    }label;
+    }inte;
     struct {
       char *content;
       char *name;
-    }string; 
+    }string;
   }contents;
-  
+
 } Elem;
 
 typedef struct{
@@ -34,10 +29,15 @@ typedef struct node{
   struct node *nxt;
 }NODE;
 
-
+//funcoes linked list
 NODE *new_node(Instr *instruction, NODE *prox);
 int length(NODE *l); //retorna o tamanho da lista
 //NODE *search(Instr instruction, NODE *l); //retorna o apontador para o nó que tem x(1ªocorrência)
 NODE *add_last(Instr *instruction, NODE *l); // coloca novo nó no fim da lista
 
-Instr *new_instr(Opkind op, Elem first, Elem second, Elem third);
+//funcoes sobre instrucoes
+Instr *new_instr(OpKind op, Elem first, Elem second, Elem third);
+
+//funcoes sobre elements
+Elem *new_elem_int(ElemKind k, int v, char *n);
+Elem *new_elem_string(ElemKind k, char *content, char *name);

@@ -1,6 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lists.h"
+#include "estrutura.h"
+
+
+
+//////////////////////////////////////////////////////////////
+//                        FUNCOES                           //
+//                      LinkedList                          //
+//////////////////////////////////////////////////////////////
 
 NODE *new_node(Instr *instruction, NODE *prox){
   NODE *l=(NODE*)malloc(sizeof(NODE));
@@ -31,7 +38,7 @@ int length(NODE *l){
 // coloca novo nó no fim da lista
 NODE *add_last(Instr *instruction, NODE *l){
   NODE *prev = NULL;
-  NODE *curr = l
+  NODE *curr = l;
   if(l==NULL)
     return new_node(instruction, l);
   while(curr!=NULL){
@@ -41,3 +48,38 @@ NODE *add_last(Instr *instruction, NODE *l){
   NXT(prev) = new_node(instruction,NULL);
   return l;
 }
+
+//////////////////////////////////////////////////////////////
+//                        FUNCOES                           //
+//                       Instrucoes                         //
+//////////////////////////////////////////////////////////////
+
+Instr *new_instr(OpKind operator, Elem first, Elem second, Elem third){
+  Instr *i = (Instr*)malloc(sizeof(Instr));
+  i->op = operator;
+  i->first = first;
+  i->second = second;
+  i->third = third;
+  return i;
+}
+
+
+//////////////////////////////////////////////////////////////
+//                        FUNCOES                           //
+//                        Element                           //
+//////////////////////////////////////////////////////////////
+
+Elem *new_elem_int(ElemKind k, int v, char *n){
+  Elem *e=(Elem*)malloc(sizeof(Elem));
+  e->kind = k;
+  e->contents.inte.val = v;
+  e->contents.inte.name = n;
+}
+
+Elem *new_elem_string(ElemKind k, char *c, char *n){
+  Elem *e=(Elem*)malloc(sizeof(Elem));
+  e->kind = k;
+  e->contents.string.content = c;
+  e->contents.string.name = n;
+}
+
