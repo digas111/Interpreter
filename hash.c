@@ -15,7 +15,7 @@ struct DataItem* dummyItem;
 struct DataItem* item;
 
 int hashCode(int key) {
-   return key % SIZE;
+  return key % SIZE;
 }
 
 struct DataItem *search(int key) {
@@ -92,9 +92,9 @@ void display() {
    for(i = 0; i<SIZE; i++) {
 
       if(hashArray[i] != NULL)
-         printf("(%d,%d)\n",hashArray[i]->key,hashArray[i]->data);
-      //else
-         //printf(" ~~ ");
+         printf("(%d,%d)",hashArray[i]->key,hashArray[i]->data);
+      else
+         printf(" ~~ ");
    }
 
    printf("\n");
