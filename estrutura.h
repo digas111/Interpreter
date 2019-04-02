@@ -16,12 +16,11 @@ typedef struct {
       char *name;
     }string;
   }contents;
-
 } Elem;
 
 typedef struct{
   OpKind op;
-  Elem first, second, third;
+  Elem *first, *second, *third;
 } Instr;
 
 typedef struct node{
@@ -36,7 +35,9 @@ int length(NODE *l); //retorna o tamanho da lista
 NODE *add_last(Instr *instruction, NODE *l); // coloca novo nó no fim da lista
 
 //funcoes sobre instrucoes
-Instr *new_instr(OpKind op, Elem first, Elem second, Elem third);
+Instr *new_instr(OpKind op, Elem *first, Elem *second, Elem *third);
+//void *instrcfy()
+
 
 //funcoes sobre elements
 Elem *new_elem_int(ElemKind k, int v, char *n);

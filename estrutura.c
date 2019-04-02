@@ -54,9 +54,9 @@ NODE *add_last(Instr *instruction, NODE *l){
 //                       Instrucoes                         //
 //////////////////////////////////////////////////////////////
 
-Instr *new_instr(OpKind operator, Elem first, Elem second, Elem third){
+Instr *new_instr(OpKind op, Elem *first, Elem *second, Elem *third){
   Instr *i = (Instr*)malloc(sizeof(Instr));
-  i->op = operator;
+  i->op = op;
   i->first = first;
   i->second = second;
   i->third = third;
