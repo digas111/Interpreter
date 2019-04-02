@@ -6,8 +6,8 @@
 #define SIZE 20
 
 struct DataItem {
-  Elem data;
-  int key;
+   int data;
+   int key;
 };
 
 struct DataItem* hashArray[SIZE];
@@ -38,7 +38,7 @@ struct DataItem *search(int key) {
    return NULL;
 }
 
-void insert(int key,Elem data) {
+void insert(int key,int data) {
 
    struct DataItem *item = (struct DataItem*) malloc(sizeof(struct DataItem));
    item->data = data;
@@ -92,9 +92,9 @@ void display() {
    for(i = 0; i<SIZE; i++) {
 
       if(hashArray[i] != NULL)
-        printf(" (%d,%d)",hashArray[i]->key,hashArray[i]->data);
-      else
-        printf(" ~~ ");
+         printf("(%d,%d)\n",hashArray[i]->key,hashArray[i]->data);
+      //else
+         //printf(" ~~ ");
    }
 
    printf("\n");

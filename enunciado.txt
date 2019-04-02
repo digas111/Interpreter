@@ -34,7 +34,7 @@ p = p/2;
 
 escrever(p);
 
-goto L2;  
+goto L2;
 
 label L1;
 
