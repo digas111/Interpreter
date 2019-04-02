@@ -73,16 +73,32 @@ Instr *instrfy(char *linha){
     ret = strstr(linha, keywords[i]);
     if(ret != NULL) break;
   }
-  if(i<SIZEKEYW){
     switch(i) {
       case 0:
+        char *varname = NULL;
+        char *str = "(";
+        varname = strtok(linha, str);
+        str = ")";
+        varname = strtok(NULL, str);
+        int input;
+        scanf("%d", &input);
+        Elem *e= new_elem_int(INT_CONST, input, varname);
+        Instr *i = new_instr(READ, e, NULL, NULL);
+        lista_instr = new_node(i, lista_instr);
+        break;
       case 1:
+        break;
       case 2:
+        break;
       case 3:
+        break;
       case 4:
+        break;
       case 5:
+        break;
+      default:
     }
-  }
+
 
 }
 
