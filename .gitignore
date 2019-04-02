@@ -1,4 +1,4 @@
 *.gch
 *out
 *.DS_STORE
-main
+*.exec

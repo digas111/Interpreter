@@ -64,6 +64,8 @@ Instr *new_instr(OpKind op, Elem *first, Elem *second, Elem *third){
 }
 
 
+
+
 //////////////////////////////////////////////////////////////
 //                        FUNCOES                           //
 //                        Element                           //
