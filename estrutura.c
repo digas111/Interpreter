@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lists.h"
+#include "estrutura.h"
 
 
 
@@ -38,7 +38,7 @@ int length(NODE *l){
 // coloca novo nó no fim da lista
 NODE *add_last(Instr *instruction, NODE *l){
   NODE *prev = NULL;
-  NODE *curr = l
+  NODE *curr = l;
   if(l==NULL)
     return new_node(instruction, l);
   while(curr!=NULL){
@@ -54,12 +54,12 @@ NODE *add_last(Instr *instruction, NODE *l){
 //                       Instrucoes                         //
 //////////////////////////////////////////////////////////////
 
-Instr *new_instr(Opkind operator, Elem first1, Elem second2, Elem third3){
+Instr *new_instr(OpKind operator, Elem first, Elem second, Elem third){
   Instr *i = (Instr*)malloc(sizeof(Instr));
   i->op = operator;
-  i->first = first1;
-  i->second = second2;
-  i->third = third3;
+  i->first = first;
+  i->second = second;
+  i->third = third;
   return i;
 }
 
@@ -69,17 +69,17 @@ Instr *new_instr(Opkind operator, Elem first1, Elem second2, Elem third3){
 //                        Element                           //
 //////////////////////////////////////////////////////////////
 
-Elem *new_elem_int(Elemkind k, int v, char *n){
+Elem *new_elem_int(ElemKind k, int v, char *n){
   Elem *e=(Elem*)malloc(sizeof(Elem));
   e->kind = k;
-  e->val = v;
-  e->name = n;
+  e->contents.inte.val = v;
+  e->contents.inte.name = n;
 }
 
-Elem *new_elem_string(Elemkind k, char *c, char *n){
+Elem *new_elem_string(ElemKind k, char *c, char *n){
   Elem *e=(Elem*)malloc(sizeof(Elem));
   e->kind = k;
-  e->content = c;
-  e->name = n;
+  e->contents.string.content = c;
+  e->contents.string.name = n;
 }
 

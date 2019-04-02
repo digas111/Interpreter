@@ -1,4 +1,4 @@
-typedef enum {ATRIB, ADD, SUB, MUL, IF_I, PRINT, READ, GOTO_I, LABEL} OpKind;
+typedef enum {ATRIB, ADD, SUB, MUL, IF_I, PRINT, READ, GOTO_I} OpKind;
 
 typedef enum {EMPTY, INT_CONST, STRING, LABEL} ElemKind;
 
@@ -36,8 +36,8 @@ int length(NODE *l); //retorna o tamanho da lista
 NODE *add_last(Instr *instruction, NODE *l); // coloca novo nó no fim da lista
 
 //funcoes sobre instrucoes
-Instr *new_instr(Opkind op, Elem first, Elem second, Elem third);
+Instr *new_instr(OpKind op, Elem first, Elem second, Elem third);
 
 //funcoes sobre elements
-Elem *new_elem_int(ElemKind kind, int val, char *name);
-Elem *new_elem_string(ElemKind kind, char *content, char *name);
+Elem *new_elem_int(ElemKind k, int v, char *n);
+Elem *new_elem_string(ElemKind k, char *content, char *name);
