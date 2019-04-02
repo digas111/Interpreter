@@ -2,6 +2,10 @@ typedef enum {ATRIB, ADD, SUB, MUL, IF_I, PRINT, READ, GOTO_I} OpKind;
 
 typedef enum {EMPTY, INT_CONST, STRING, LABEL} ElemKind;
 
+char *keywords[] = {"-ler(", "-if", "-escrever(", "-goto", "-label", "-quit"};
+
+#define SIZEKEYW 6
+
 #define NXT(P)((P)->nxt)
 
 typedef struct {
