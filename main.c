@@ -8,7 +8,7 @@ HASHNODE *Hashtable[NHASH];
 
 int main(){
 
-  if(DEBUGMODE){
+  if (DEBUGMODE){
 
     file_to_llist();
 
