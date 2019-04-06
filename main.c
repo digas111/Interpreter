@@ -6,7 +6,7 @@
 
 HASHNODE *Hashtable[NHASH];
 
-int main(int argc, char **file){
+int main(int argc, char **file) {
 
   printf("%s\n", *file);
 

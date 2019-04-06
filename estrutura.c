@@ -77,6 +77,7 @@ Instr *instrfy(char *linha){
     ret = strstr(linha, keywords[i]);
     if(ret != NULL) break;
   }
+
     switch(i) {
       case 0: //ler(_);
         char str[25];
@@ -177,5 +178,11 @@ Elem *new_elem_string(ElemKind k, char *c, char *n){
 // void run_program(NODE *lista) {
 //
 //
+//
+// }
+//
+// void exec_instr(Instr command) {
+//
+//   if ()
 //
 // }
