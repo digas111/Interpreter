@@ -6,7 +6,9 @@
 
 HASHNODE *Hashtable[NHASH];
 
-int main(){
+int main(int argc, char **file){
+
+  printf("%s\n", *file);
 
   if (DEBUGMODE){
 

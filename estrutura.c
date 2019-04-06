@@ -169,3 +169,10 @@ Elem *new_elem_string(ElemKind k, char *c, char *n){
 
   return e;
 }
+
+
+// void run_program(NODE *lista) {
+//
+//
+//
+// }
