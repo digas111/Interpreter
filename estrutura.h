@@ -2,6 +2,9 @@ typedef enum {ATRIB, ADD, SUB, MUL, IF_I, PRINT, READ, GOTO_I} OpKind;
 
 typedef enum {EMPTY, INT_CONST, STRING, LABEL} ElemKind;
 
+
+#define SIZEKEYW 6
+
 #define NXT(P)((P)->nxt)
 
 typedef struct {
@@ -28,6 +31,11 @@ typedef struct node{
   struct node *nxt;
 }NODE;
 
+//Variaveis globais
+
+char *keywords[] = {"-ler(", "-if", "-escrever(", "-goto", "-label", "-quit"};
+NODE *lista_instr = NULL;
+
 //funcoes linked list
 NODE *new_node(Instr *instruction, NODE *prox);
 int length(NODE *l); //retorna o tamanho da lista
@@ -36,7 +44,7 @@ NODE *add_last(Instr *instruction, NODE *l); // coloca novo nó no fim da lista
 
 //funcoes sobre instrucoes
 Instr *new_instr(OpKind op, Elem *first, Elem *second, Elem *third);
-//void *instrcfy()
+Instr *instrfy(char *linha);
 
 
 //funcoes sobre elements

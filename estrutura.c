@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "estrutura.h"
 
 
@@ -63,7 +64,43 @@ Instr *new_instr(OpKind op, Elem *first, Elem *second, Elem *third){
   return i;
 }
 
+Instr *instrfy(char *linha){
+  char *ret = NULL;
+  int i;
+  //ciclo pra encontrar a needle
+  for(i=0; i<SIZEKEYW; i++){
+    //ret = strstr(haystack, needle);
+    ret = strstr(linha, keywords[i]);
+    if(ret != NULL) break;
+  }
+    switch(i) {
+      case 0:
+        char *varname = NULL;
+        char *str = "(";
+        varname = strtok(linha, str);
+        str = ")";
+        varname = strtok(NULL, str);
+        int input;
+        scanf("%d", &input);
+        Elem *e= new_elem_int(INT_CONST, input, varname);
+        Instr *i = new_instr(READ, e, NULL, NULL);
+        lista_instr = new_node(i, lista_instr);
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      case 5:
+        break;
+      default:
+    }
 
+
+}
 
 
 //////////////////////////////////////////////////////////////
@@ -85,5 +122,6 @@ Elem *new_elem_string(ElemKind k, char *c, char *n){
   e->kind = k;
   e->contents.string.content = c;
   e->contents.string.name = n;
+
   return e;
 }
