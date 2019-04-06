@@ -1,6 +1,6 @@
-typedef enum {ATRIB, ADD, SUB, MUL, IF_I, PRINT, READ, GOTO_I} OpKind;
+typedef enum {ATRIB, ADD, SUB, MUL, IF_I, PRINT, READ, GOTO_I, LABEL_I, QUIT_I} OpKind;
 
-typedef enum {EMPTY, INT_CONST, STRING, LABEL} ElemKind;
+typedef enum {EMPTY, INT_CONST, STRING, LABEL, CONDITION, QUIT} ElemKind;
 
 
 #define SIZEKEYW 6
@@ -11,7 +11,7 @@ typedef struct {
   ElemKind kind;
   union{
    struct {
-      int val;
+      int *val;
       char *name;
     }inte;
     struct {
@@ -31,10 +31,7 @@ typedef struct node{
   struct node *nxt;
 }NODE;
 
-//Variaveis globais
 
-char *keywords[] = {"-ler(", "-if", "-escrever(", "-goto", "-label", "-quit"};
-NODE *lista_instr = NULL;
 
 //funcoes linked list
 NODE *new_node(Instr *instruction, NODE *prox);
@@ -48,5 +45,6 @@ Instr *instrfy(char *linha);
 
 
 //funcoes sobre elements
-Elem *new_elem_int(ElemKind k, int v, char *n);
+//Elem *new_elem_empty_int();
+Elem *new_elem_int(ElemKind k, int *v, char *n);
 Elem *new_elem_string(ElemKind k, char *content, char *name);
