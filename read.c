@@ -62,7 +62,6 @@ void file_to_llist() {
         int index = 0;
         line = (char *) malloc(index*sizeof(char));
 
-        line = string_add_last(line,&index,'-');
         line = string_add_last(line,&index,c);
 
         while ((c = getc(code)) != ';') {
