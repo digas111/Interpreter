@@ -19,9 +19,9 @@ typedef struct hashnode {
 //----------------------------------------
 
 unsigned int hash(char *str);
-HASHNODE *lookup(char *name, int value, int create);
+HASHNODE *lookup(HASHNODE *in_hash[], char *name, int value, int create);
 HASHNODE *new_hashnode(char *name, int value, HASHNODE *next);
-void print();
+void print(HASHNODE *in_hash[]);
 
 //----------------------------------------
 

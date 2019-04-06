@@ -14,13 +14,13 @@ int main(){
 
     printf("\n\n");
 
-    lookup("boas",2,1);
-    lookup("comandos",3,1);
-    lookup("cenas",1,1);
-    lookup("coisas",4,1);
-    lookup("sjjs",5,1);
+    lookup(Hashtable,"boas",2,1);
+    lookup(Hashtable,"comandos",3,1);
+    lookup(Hashtable,"cenas",1,1);
+    lookup(Hashtable,"coisas",4,1);
+    lookup(Hashtable,"sjjs",5,1);
 
-    print();
+    print(Hashtable);
 
     NODE *lista = NULL;
 

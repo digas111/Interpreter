@@ -3,6 +3,22 @@
 #include<string.h>
 #include "read.h"
 
+char* string_add_last(char string[], int *size, char c) {
+
+  int n = *size;
+
+  string = (char *) realloc(string,(n+1)*sizeof(char));
+
+  string[n] = c;
+
+  n++;
+
+  *size = n;
+
+  return string;
+
+}
+
 char* dell_spaces(char *input) {
 
   int i,j=0;
@@ -44,10 +60,10 @@ void file_to_llist() {
 
         char *line;
         int index = 0;
+        line = (char *) malloc(index*sizeof(char));
 
-        line = (char *) malloc(index+1);
-
-        line[0] = c;
+        line = string_add_last(line,&index,'-');
+        line = string_add_last(line,&index,c);
 
         while ((c = getc(code)) != ';') {
 
@@ -55,19 +71,17 @@ void file_to_llist() {
             flag = 1;
           }
 
-          index++;
-
-          line = (char *) realloc(line,index+1);
-
-          line[index] = c;
+          line = string_add_last(line,&index,c);
 
         }
+
+        line = string_add_last(line,&index,'\0');
 
         if (flag) {
           line = dell_spaces(line);
         }
 
-        printf("line %d: -%s-\n", i,line);
+        printf("line %d: %s-\n", i,line);
 
       }
 
