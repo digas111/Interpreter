@@ -41,7 +41,7 @@ NODE *add_last(Instr *instruction, NODE *l); // coloca novo nó no fim da lista
 
 //funcoes sobre instrucoes
 Instr *new_instr(OpKind op, Elem *first, Elem *second, Elem *third);
-Instr *instrfy(char *linha);
+void instrfy(char *linha);
 
 
 //funcoes sobre elements

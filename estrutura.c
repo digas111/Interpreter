@@ -5,7 +5,7 @@
 
 //VARIAVEIS GLOBAIS
 
-char *keywords[] = {"-ler(", "-if", "-escrever(", "-goto", "-label", "-quit"};
+char *keywords[] = {"-ler(", "-if", "-escrever(", "-goto", "-label", "-quit", "+", "-", "*", "/"};
 NODE *lista_instr = NULL;
 
 
@@ -68,8 +68,11 @@ Instr *new_instr(OpKind op, Elem *first, Elem *second, Elem *third){
   return i;
 }
 
-Instr *instrfy(char *linha){
-  char *ret = NULL;
+void instrfy(char *linha){
+  Elem *e = NULL;
+  Instr *in = NULL;
+  char *ret = NULL, *token = NULL;
+  char str[30] ;
   int i;
   //ciclo pra encontrar a needle
   for(i=0; i<SIZEKEYW; i++){
@@ -77,74 +80,68 @@ Instr *instrfy(char *linha){
     ret = strstr(linha, keywords[i]);
     if(ret != NULL) break;
   }
-    switch(i) {
-      case 0: //ler(_);
-        char str[25];
-        strcpy(str, linha);
-        char *varname = NULL;
-        varname = strtok(str, "(");
-        varname = strtok(NULL, ")");
-        Elem *e= new_elem_int(EMPTY, NULL, varname);
-        Instr *i = new_instr(READ, e, NULL, NULL);
-        lista_instr = new_node(i, lista_instr);
-        break;
-      case 1: //if _ goto _
-        char str[80];
-        strcpy(str, linha);
-        char *token1, *token2;
-        token1 = strchr(str, ' '); //token1 = (condition) goto LX
-        token2 = strtok(token1, "goto"); // token2 = (condition)
-        Elem *condition = new_elem_string(CONDITION, token2, NULL);
-        strcpy(str, linha);
-        token1 = strtok(str, "goto"); //token1 = if (condition)
-        token1 = strtok(NULL, " "); //token1 = oto
-        token1 = strtok(NULL, " "); //token1 = LX
-        Elem *label = new_elem_int(LABEL, NULL, token1);
-        Instr *i = new_instr(IF_I, condition, label, NULL);
-        lista_instr = new_node(i, lista_instr);
-        break;
-      case 2: //escrever(_);
-        char *linha = "-escrever( p );";
-        char str[20];
-        strcpy(str, linha);
-        char *varname = strtok(str, "(");
-        varname = strtok(NULL, ")");
-        Elem *e = new_elem_int(EMPTY, NULL, varname);
-        Instr *i = new_instr(PRINT, e, NULL, NULL);
-        lista_instr = new_node(i, lista_instr);
-        break;
-      case 3: //goto _
-        strcpy(str, linha);
-        char *token;
-        token =strchr(str, ' ');
-        token = strtok(token, "-");
-        Elem *e = new_elem_int(LABEL, NULL, token);
-        Instr *i = new_instr(GOTO_I, e, NULL, NULL);
-        lista_instr = new_node(i, lista_instr);
-        break;
-      case 4: //label
-      char str[25];
-        strcpy(str, linha);
-        char *token;
-        token =strchr(str, ' ');
-        token = strtok(token, "-");
-        Elem *e = new_elem_int(LABEL, NULL, token);
-        Instr *i = new_instr(LABEL_I, e, NULL, NULL);
-        lista_instr = new_node(i, lista_instr);
-        break;
-      case 5: //"-quit"
-        char str[25];
-        strcpy(str, linha);
-        char *token;
-        token =strchr(str, '-');
-        token = strtok(token, "-");
-        Elem *e = new_elem_int(QUIT, NULL, token);
-        Instr *i= new_instr(QUIT_I, e, NULL, NULL);
-        lista_instr = new_node(i, lista_instr);
-        break;
-      default: // ATRIB
+  switch(i) {
+    case 0: //ler(_);
+      strcpy(str, linha);
+      char *varname = NULL;
+      varname = strtok(str, "(");
+      varname = strtok(NULL, ")");
+      e = new_elem_int(EMPTY, NULL, varname);
+      in = new_instr(READ, e, NULL, NULL);
+      lista_instr = new_node(in, lista_instr);
+      break;
+    case 1: //if _ goto _
+      strcpy(str, linha);
+      char *token1, *token2;
+      token1 = strchr(str, ' '); //token1 = (condition) goto LX
+      token2 = strtok(token1, "goto"); // token2 = (condition)
+      Elem *condition = new_elem_string(CONDITION, token2, NULL);
+      strcpy(str, linha);
+      token1 = strtok(str, "goto"); //token1 = if (condition)
+      token1 = strtok(NULL, " "); //token1 = oto
+      token1 = strtok(NULL, " "); //token1 = LX
+      Elem *label = new_elem_int(LABEL, NULL, token1);
+      in = new_instr(IF_I, condition, label, NULL);
+      lista_instr = new_node(in, lista_instr);
+      break;
+    case 2: //escrever(_);
+      strcpy(str, linha);
+      varname = strtok(str, "(");
+      varname = strtok(NULL, ")");
+      e = new_elem_int(EMPTY, NULL, varname);
+      in = new_instr(PRINT, e, NULL, NULL);
+      lista_instr = new_node(in, lista_instr);
+      break;
+    case 3: //goto _
+      strcpy(str, linha);
 
-    }
+      token =strchr(str, ' ');
+      token = strtok(token, "-");
+      e = new_elem_int(LABEL, NULL, token);
+      in = new_instr(GOTO_I, e, NULL, NULL);
+      lista_instr = new_node(in, lista_instr);
+      break;
+    case 4: //label
+      strcpy(str, linha);
+
+      token =strchr(str, ' ');
+      token = strtok(token, "-");
+      e = new_elem_int(LABEL, NULL, token);
+      in = new_instr(LABEL_I, e, NULL, NULL);
+      lista_instr = new_node(in, lista_instr);
+      break;
+    case 5: //"-quit"
+      strcpy(str, linha);
+      token =strchr(str, '-');
+      token = strtok(token, "-");
+      e = new_elem_int(QUIT, NULL, token);
+      in = new_instr(QUIT_I, e, NULL, NULL);
+      lista_instr = new_node(in, lista_instr);
+      break;
+    default: // ATRIB
+      printf("cenas");
+
+  }
 
 
 }
