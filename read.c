@@ -41,10 +41,10 @@ char* dell_spaces(char *input) {
 
 }
 
-void file_to_llist() {
+void file_to_llist(char file_name[]) {
 
   FILE * code;
-  code = fopen("test.txt", "r");
+  code = fopen(file_name, "r");
 
   char c;
 
