@@ -281,3 +281,9 @@ Elem *new_elem_string(ElemKind k, char *c, char *n){
 //
 //
 // }
+//
+// void exec_instr(Instr command) {
+//
+//   if ()
+//
+// }
