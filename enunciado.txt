@@ -97,3 +97,7 @@ typedef struct
 // Os trabalhos deverão ser feitos em grupos de dois alunos. Deverão ser enviados por email para o respectivo docente
 // das práticas e apresentados (numa apresentação breve) ao docente durante as aulas práticas da semana de 8 a 12 de
 // Abril.
+
+
+char *keywords[] = {"-ler(", "-if", "-escrever(", "-goto", "-label",
+"-quit", "+", "-", "*", "/"};

@@ -1,9 +1,8 @@
-typedef enum {ATRIB, ADD, SUB, MUL, IF_I, PRINT, READ, GOTO_I, LABEL_I, QUIT_I} OpKind;
+typedef enum {ATRIB, ADD, SUB, MUL, DIV, IF_I, PRINT, READ, GOTO_I, LABEL_I, QUIT_I} OpKind;
 
 typedef enum {EMPTY, INT_CONST, STRING, LABEL, CONDITION, QUIT} ElemKind;
 
 
-#define SIZEKEYW 6
 
 #define NXT(P)((P)->nxt)
 
@@ -11,7 +10,7 @@ typedef struct {
   ElemKind kind;
   union{
    struct {
-      int *val;
+      int val;
       char *name;
     }inte;
     struct {
@@ -45,6 +44,6 @@ void instrfy(char *linha);
 
 
 //funcoes sobre elements
-//Elem *new_elem_empty_int();
-Elem *new_elem_int(ElemKind k, int *v, char *n);
+Elem *new_elem(ElemKind k, char *n);
+Elem *new_elem_int(ElemKind k, int v, char *n);
 Elem *new_elem_string(ElemKind k, char *content, char *name);
