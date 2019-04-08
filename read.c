@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include "read.h"
+#include "estrutura.h"
 
 char* string_add_last(char string[], int *size, char c) {
 
@@ -62,7 +63,7 @@ void file_to_llist(char file_name[]) {
         int index = 0;
         line = (char *) malloc(index*sizeof(char));
 
-        line = string_add_last(line,&index,'-');
+        line = string_add_last(line,&index,'.');
         line = string_add_last(line,&index,c);
 
         while ((c = getc(code)) != ';') {
@@ -81,7 +82,10 @@ void file_to_llist(char file_name[]) {
           line = dell_spaces(line);
         }
 
+
+        instrfy(line);
         printf("line %d: %s-\n", i,line);
+
 
       }
 
