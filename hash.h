@@ -25,6 +25,8 @@ void print(HASHNODE *in_hash[]);
 
 //----------------------------------------
 
+HASHNODE *Hashtable[NHASH];
+
 
 
 #endif

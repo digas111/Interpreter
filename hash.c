@@ -27,22 +27,27 @@ unsigned int hash(char *str) {
 
 HASHNODE *lookup(HASHNODE *in_hash[], char *name, int value, int create) {
 
- //se existir name na tabela de hash
- // retornar o seu valor
- // se não exitir e create for 1
- //  criar o no com name e value
+printf("******************************************************\n");
+
+ //se existir name na tabela e criar for 1 -> substitui o valor
+ //se existir name na tabela e criar for 0 -> retorna o seu valor
+ //se não existir e criar for 1 cria um novo elemento
 
  unsigned int i = hash(name);
  HASHNODE * l = in_hash[i];
 
  while(l != NULL) {
   if (strcmp(name, NAME(l))==0) {
+    if (create) {
+      VALUE(l) = value;
+    }
    return l;
   }
   l = NEXT(l);
  }
 
  if (create) {
+
   l = new_hashnode(name, value,in_hash[i]);
   in_hash[i] = l;
  }

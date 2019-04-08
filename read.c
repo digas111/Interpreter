@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include "read.h"
-#include "estrutura.h"
+
 
 char* string_add_last(char string[], int *size, char c) {
 
@@ -42,7 +42,7 @@ char* dell_spaces(char *input) {
 
 }
 
-void file_to_llist(char file_name[]) {
+NODE *file_to_llist(char file_name[], NODE *lista_instr) {
 
   FILE * code;
   code = fopen(file_name, "r");
@@ -82,8 +82,19 @@ void file_to_llist(char file_name[]) {
           line = dell_spaces(line);
         }
 
+        Instr *instr = instrfy(line);
 
-        instrfy(line);
+        printf("aqui\n");
+        printf("OpKind = %d\n", instr->op);
+        printf("First.name: _%s_\n",instr->first->contents.inte.name);
+        printf("Second.name: _%s_\n",instr->second->contents.inte.name);
+        printf("Third.name: _%s_\n\n",instr->third->contents.inte.name);
+
+
+        lista_instr = add_last(instr, lista_instr);
+        printf("-%s-\n", lista_instr->instr->first->contents.inte.name);
+
+
         printf("line %d: %s-\n", i,line);
 
 
@@ -93,5 +104,7 @@ void file_to_llist(char file_name[]) {
   }
 
   fclose(code);
+
+  return lista_instr;
 
 }
