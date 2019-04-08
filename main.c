@@ -1,4 +1,5 @@
 #include <stdio.h>
+// #include "estrutura.h"
 #include "read.h"
 #define DEBUGMODE 1
 
@@ -6,16 +7,14 @@
 
 int main(int argc, char** argv) {
 
-  NODE *lista_instr = NULL;
-
   char *file = argv[1];
 
   printf("--%s\n", file);
 
   if (DEBUGMODE) {
 
-    lista_instr = file_to_llist(file, lista_instr);
-    run_program(lista_instr);
+    file_to_llist(file);
+    run_program();
     //print_lista(lista_instr);
 
     //printf("\n\n");

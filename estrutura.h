@@ -4,25 +4,19 @@ typedef enum {EMPTY, INT_CONST, STRING, LABEL, CONDITION, QUIT} ElemKind;
 
 #include "hash.h"
 
-#define NXT(P)((P)->nxt)
-#define INSTR(P)((P)->instr)
+
 #define KIND(P)((P)->op)
 
-#define NAMECMD(P)((P)->first->contents.inte.name)
-#define VALCMD(P)((P)->second->contents.inte.val)
+#define NAMECMD(P)((P)->first->contents.name)
+#define VALCMD(P)((P)->second->contents.val)
 
 typedef struct {
   ElemKind kind;
-  union{
-   struct {
+  union
+   {
       int val;
       char *name;
-    }inte;
-    struct {
-      char *content;
-      char *name;
-    }string;
-  }contents;
+    }contents;
 } Elem;
 
 typedef struct{
@@ -30,19 +24,18 @@ typedef struct{
   Elem *first, *second, *third;
 } Instr;
 
+
+#define NXT(P)((P)->nxt)
+#define INSTR(P)((P)->instr)
+
 typedef struct node{
   Instr *instr;
   struct node *nxt;
 }NODE;
 
-
-
-//funcoes linked list
-NODE *new_node(Instr *instruction);
-int length(NODE *l); //retorna o tamanho da lista
-//NODE *search(Instr instruction, NODE *l); //retorna o apontador para o nó que tem x(1ªocorrência)
-NODE *add_last(Instr *instruction, NODE *l); // coloca novo nó no fim da lista
-void print_lista(NODE *lista);
+NODE *new_node(Instr *i, NODE *prox);
+int length(NODE *l);
+void add_last(Instr *i);
 
 //funcoes sobre instrucoes
 Instr *new_instr(OpKind op, Elem *first, Elem *second, Elem *third);
@@ -57,5 +50,5 @@ Elem *new_elem_empty();
 
 
 //funcoes run
-void run_program(NODE *lista);
+void run_program();
 void exec_instr(Instr *command);

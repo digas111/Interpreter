@@ -12,69 +12,62 @@
 
 char *keywords[] = {".ler(", ".if", ".escrever(", ".goto", ".label", ".quit", "+", "-", "*", "/"};
 
+NODE *lista_instr = NULL;
+
 //////////////////////////////////////////////////////////////
 //                        FUNCOES                           //
 //                      LinkedList                          //
 //////////////////////////////////////////////////////////////
 
-NODE *new_node(Instr *instruction) {
-
-  Instr *instr = instruction;
-
+NODE *new_node(Instr *i, NODE *prox) {
   printf("new_node\n");
-  printf("OpKind = %d\n", instr->op);
-  printf("First.name: _%s_\n",instr->first->contents.inte.name);
-  printf("Second.name: _%s_\n",instr->second->contents.inte.name);
-  printf("Third.name: _%s_\n\n",instr->third->contents.inte.name);
-
-  NODE *l=(NODE*)malloc(sizeof(NODE));
-  l->instr = instruction;
-  l->nxt = NULL;
-
-  //printf("***%s***\n", l->instr->first->contents.inte.name);
+  printf("OpKind = %d\n", i->op);
+  printf("First.name: _%s_\n",i->first->contents.name);
+  printf("Second.name: _%s_\n",i->second->contents.name);
+  printf("Third.name: _%s_\n\n",i->third->contents.name);
+  NODE *l = (NODE *) malloc (sizeof (NODE));
+  INSTR(l) = i;
+  NXT(l) = prox;
   return l;
 }
 
-int length(NODE *l){
-  int len=0;
-  while(l!=NULL){
-    len++;
+int length(NODE *l) {
+
+  int count = 0;
+
+  while(l != NULL) {
+    count++;
     l = NXT(l);
   }
-  return len;
+
+  return count;
+
 }
 
-NODE *add_last(Instr *instruction, NODE *l) {
 
-  Instr *instr = instruction;
+void add_last(Instr *i) {
 
-  printf("aqui\n");
-  printf("OpKind = %d\n", instr->op);
-  printf("First.name: _%s_\n",instr->first->contents.inte.name);
-  printf("Second.name: _%s_\n",instr->second->contents.inte.name);
-  printf("Third.name: _%s_\n\n",instr->third->contents.inte.name);
+  printf("add_last\n");
+  printf("OpKind = %d\n", i->op);
+  printf("First.name: _%s_\n",i->first->contents.name);
+  printf("Second.name: _%s_\n",i->second->contents.name);
+  printf("Third.name: _%s_\n\n",i->third->contents.name);
 
-
-  NODE*prev = NULL, *curr=l;
+  NODE*prev = NULL, *curr=lista_instr;
   while(curr != NULL) {
     prev = curr;
     curr = NXT(curr);
   }
 
-  if (prev == NULL) return new_node(instr);
-  NXT(prev) = new_node(instr);
-  return l;
-}
-
-
-void print_lista(NODE *lista){
-  NODE *curr = lista;
-  if(curr==NULL) printf("Lista vazia\n");
-  while(curr!=NULL){
-    printf("---------------------------\nOpKind = %d First.name: %s Second.name: %s Third.name: %s\n----------------------------\n", curr->instr->op, curr->instr->first->contents.inte.name, curr->instr->second->contents.inte.name, curr->instr->third->contents.inte.name);
-  curr = NXT(curr);
+  if (prev == NULL) {
+    lista_instr =  new_node(i,NULL);
+    return;
   }
+  NXT(prev) = new_node(i,NULL);
+  printf("exit add_last\n");
 }
+
+
 
 //////////////////////////////////////////////////////////////
 //                        FUNCOES                           //
@@ -124,16 +117,16 @@ Instr *instrfy(char *linha) {
       in = new_instr(READ, e, NULL, NULL);
       break;
     case 1: //if _ goto _
-      if (DEBUG) printf("case 1\n");
-      strtok(str, " ");
-      token = strtok(NULL, " goto "); // token2 = (condition)
-      if (DEBUG) printf("|%s|\n", token);
-      Elem *condition = new_elem_string(CONDITION, token, NULL);
-      strtok(NULL," ");
-      token = strtok(NULL,"\0");
-      if (DEBUG) printf("|%s|\n", token);
-      Elem *label = new_elem(LABEL, token);
-      in = new_instr(IF_I, condition, label, NULL);
+      // if (DEBUG) printf("case 1\n");
+      // strtok(str, " ");
+      // token = strtok(NULL, " goto "); // token2 = (condition)
+      // if (DEBUG) printf("|%s|\n", token);
+      // Elem *condition = new_elem_string(CONDITION, token, NULL);
+      // strtok(NULL," ");
+      // token = strtok(NULL,"\0");
+      // if (DEBUG) printf("|%s|\n", token);
+      // Elem *label = new_elem(LABEL, token);
+      // in = new_instr(IF_I, condition, label, NULL);
       break;
     case 2: //escrever(_);
       if (DEBUG) printf("case 2\n");
@@ -295,9 +288,9 @@ Instr *instrfy(char *linha) {
   printf("____________________________\n");
   printf("in\n");
   printf("OpKind = %d\n", in->op);
-  printf("First.name: _%s_\n",in->first->contents.inte.name);
-  printf("Second.name: _%s_\n",in->second->contents.inte.name);
-  printf("Third.name: _%s_\n\n",in->third->contents.inte.name);
+  printf("First.name: _%s_\n",in->first->contents.name);
+  printf("Second.name: _%s_\n",in->second->contents.name);
+  printf("Third.name: _%s_\n\n",in->third->contents.name);
   printf("____________________________\n");
 
   return in;
@@ -311,9 +304,9 @@ Instr *instrfy(char *linha) {
 //////////////////////////////////////////////////////////////
 
 Elem *new_elem(ElemKind k, char *n){
-  Elem *e=(Elem*)malloc(sizeof(Elem));
+  Elem *e=(Elem* )malloc(sizeof(Elem));
   e->kind = k;
-  e->contents.inte.name = n;
+  e->contents.name = n;
 
   return e;
 }
@@ -321,20 +314,20 @@ Elem *new_elem(ElemKind k, char *n){
 Elem *new_elem_int(ElemKind k, int v, char *n){
   Elem *e=(Elem*)malloc(sizeof(Elem));
   e->kind = k;
-  e->contents.inte.val = v;
-  e->contents.inte.name = n;
+  e->contents.val = v;
+  e->contents.name = n;
 
   return e;
 }
 
-Elem *new_elem_string(ElemKind k, char *c, char *n){
-  Elem *e=(Elem*)malloc(sizeof(Elem));
-  e->kind = k;
-  e->contents.string.content = c;
-  e->contents.string.name = n;
-
-  return e;
-}
+// Elem *new_elem_string(ElemKind k, char *c, char *n){
+//   Elem *e=(Elem*)malloc(sizeof(Elem));
+//   e->kind = k;
+//   e->contents.content = c;
+//   e->contents.string.name = n;
+//
+//   return e;
+// }
 
 Elem *new_elem_empty(){
     Elem *e= new_elem(EMPTY,NULL);
@@ -342,11 +335,19 @@ Elem *new_elem_empty(){
 }
 
 
-void run_program(NODE *lista) {
+void run_program() {
+
+  NODE *lista = lista_instr;
 
 
 
   while(lista != NULL) {
+
+    printf("run_program\n");
+    printf("OpKind = %d\n", lista->instr->op);
+    printf("First.name: _%s_\n",lista->instr->first->contents.name);
+    printf("Second.name: _%s_\n",lista->instr->second->contents.name);
+    printf("Third.name: _%s_\n\n",lista->instr->third->contents.name);
 
     exec_instr(INSTR(lista));
     lista = NXT(lista);
@@ -364,13 +365,17 @@ void run_program(NODE *lista) {
 void exec_instr(Instr *command) {
 
   switch (KIND(command)) {
-    // case ATRIB:
-    //   if (DEBUG) printf("ATRIB\n");
-    //   if (DEBUG) printf("_%s_\n", NAMECMD(command));
-    //   lookup(Hashtable, NAMECMD(command), VALCMD(command),1);
-    //   break;
+    case ATRIB:
+      if (DEBUG) printf("ATRIB\n");
+      if (DEBUG) printf("_%s_\n", NAMECMD(command));
+      lookup(Hashtable, NAMECMD(command), VALCMD(command),1);
+      break;
     case ADD:
       if (DEBUG) printf("ADD\n");
+      printf("OpKind = %d\n", command->op);
+      printf("First.name: _%s_\n",command->first->contents.name);
+      printf("Second.name: _%s_\n",command->second->contents.name);
+      printf("Third.name: _%s_\n\n",command->third->contents.name);
       break;
     case SUB:
       if (DEBUG) printf("SUB\n");
