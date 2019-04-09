@@ -3,6 +3,7 @@
 #include<string.h>
 #include "read.h"
 
+NODE *lista_instr = NULL;
 
 char* string_add_last(char string[], int *size, char c) {
 
@@ -91,7 +92,7 @@ void file_to_llist(char file_name[]) {
         // printf("Third.name: _%s_\n\n",instr->third->contents.inte.name);
 
 
-        add_last(instrfy(line));
+        lista_instr = add_last(instrfy(line),lista_instr);
 
 
         printf("line %d: %s-\n", i,line);

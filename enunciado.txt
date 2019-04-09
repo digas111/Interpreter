@@ -101,3 +101,46 @@ typedef struct
 
 char *keywords[] = {"-ler(", "-if", "-escrever(", "-goto", "-label",
 "-quit", "+", "-", "*", "/"};
+
+_________________________________________________________________
+
+Nossa interpretação
+
+Comandos:
+      ler(k) -> (READ, k, EMPTY,EMPTY);
+      escrever(k) -> (PRINT, k, EMPTY,EMPTY);
+      if k goto L2 -> (IF, k, L2, EMPTY);
+      goto L1 -> (GOTO,L1,EMPTY,EMPTY);
+      label L1 -> (LABEL,L1,EMPTY,EMPTY);
+      quit -> (QUIT,EMPTY,EMPTY,EMPTY);
+      p=3+6 -> (ADD,p,3,6);
+      p=3-6 -> (SUB,p,3,6);
+      p=3/6 -> (DIV,p,3,6);
+      p=3*6 -> (MUL,p,3,6);
+      p=6 -> (ATRIB,p,6,EMPTY);
+
+main-
+hash -
+  HASHNODE *new_hashnode(char *name, int value, HASHNODE *next);
+  unsigned int hash (char *str);
+  int get_value(HASHNODE *in_hash[], char *name);
+  HASHNODE *save(HASHNODE *in_hash[], char *name);
+
+linkedlist -
+  void print_llist(NODE *list);
+  int length(NODE *list);
+  NODE *new_node(Instr *instr);
+  NODE *add_last(Instr *instr, NODE *list);
+
+instr -
+  Instr *new_instr(OpKind k,char *elem1, char *elem2, char *elem3);
+  Instr *instrfy(char *line);
+
+exec-
+  void exec(NODE *program);
+  void exec_instr(Instr* command);
+
+read-
+  NODE *file_to_llist(char file_name[]);
+  char *dell_spaces(char *input);
+  char* string_add_last(char string[], int *size, char c);
