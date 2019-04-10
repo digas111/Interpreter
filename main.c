@@ -8,9 +8,6 @@
 
 int main(int argc, char **argv) {
 
- char *file = argv[1];
-
- if (DEBUG) printf("FILE_NAME: _%s_\n", file);
 
  VHASHNODE *variables[NHASH];
 
