@@ -13,6 +13,7 @@ typedef struct vhashnode {
 
 //----------------------------------------
 
+VHASHNODE *save(VHASHNODE *in_hash[], char *name, int value);
 VHASHNODE *new_vhashnode(char *name, int value, VHASHNODE *next);
 VHASHNODE *get_var(VHASHNODE *in_hash[], char *name);
 void print(VHASHNODE *in_hash[]);
