@@ -1,39 +1,27 @@
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
-#include "hash.h"
+#include "labelhash.h"
 
-//HASHNODE *Hashtable[NHASH];
+//LHASHNODE *Hashtable[NHASH];
 
-HASHNODE *new_hashnode(char *name, int value, HASHNODE *next) {
-  HASHNODE *l = (HASHNODE *) malloc (sizeof (HASHNODE));
+LHASHNODE *new_lhashnode(char *name, NODE *label,int value, LHASHNODE *next) {
+  LHASHNODE *l = (LHASHNODE *) malloc (sizeof (LHASHNODE));
   HNAME(l) = name;
-  HVALUE(l) = value;
+  LNODE(l) = label;
   HNEXT(l) = next;
   return l;
 }
 
-unsigned int hash(char *str) {
- unsigned int res = 0;
-
- while(*str != '\0'){
-
-  res = res * MULTIPLICADOR + *str;
-  str++;
-
- }
- return res%NHASH;
-}
-
-int get_value(HASHNODE *in_hash[], char *name) {
-
+//return the label NODE
+NODE *get_label(LHASHNODE *in_hash[], char *name) {
 
   unsigned inti = hash(name);
-  HASHNODE *l = in_hash[i];
+  LHASHNODE *l = in_hash[i];
 
   while(l != NULL) {
     if (strcmp(name, HNAME(l))==0) {
-      return HVALUE(l);
+      return LNODE(l);
     }
     l = HNEXT(l);
   }
@@ -43,15 +31,15 @@ int get_value(HASHNODE *in_hash[], char *name) {
 }
 
 //saves the variabel's value
-HASHNODE *save(HASHNODE *in_hash[], char *name, int value) {
+LHASHNODE *save(LHASHNODE *in_hash[], char *name, NODE *label) {
 
   unsigned int i = hash(name);
-  HASHNODE *l = in_hash[i];
+  LHASHNODE *l = in_hash[i];
 
   while(l!=NULL) {
 
     if (strcmp(name, HNAME(l))==0) {
-      HVALUE(l) = value;
+      LNODE(l) = label;
       return l;
     }
 
@@ -59,32 +47,9 @@ HASHNODE *save(HASHNODE *in_hash[], char *name, int value) {
 
   }
 
-  l = new_hashnode(name, value,in_hash[i]);
+  l = new_lhashnode(name, label,in_hash[i]);
 
   return l;
 
-
-}
-
-
-
-//print the hash
-void print(HASHNODE *in_hash[]) {
-
-  int i=0;
-  HASHNODE *l;
-
-  for(i=0; i<NHASH;i++) {
-    if ((l = in_hash[i])!=NULL) {
-      while(l!=NULL) {
-        printf("NAME: %s - VALUE:%d\n", HNAME(l),HVALUE(l));
-        l = HNEXT(l);
-      }
-      printf("\n");
-    }
-    else {
-      printf("~~\n");
-    }
-  }
 
 }

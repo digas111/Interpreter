@@ -1,24 +1,18 @@
 #ifndef VHASH_H
-#define HASH_H
+#define VHASH_H
 
-#define HNAME(P)((P) -> name)
-#define HVALUE(P)((P) -> value)
-#define HNEXT(P)((P) -> next)
-
-#define NHASH 4
-#define MULTIPLICADOR 31
+#define VVALUE(P)((P) -> value)
 
 
-typedef struct hashnode {
+typedef struct vhashnode {
  char *name;
  int value;
- struct hashnode *next;
-}HASHNODE;
+ struct vhashnode *next;
+}VHASHNODE;
 
 
 //----------------------------------------
 
-unsigned int hash(char *str);
 HASHNODE *lookup(HASHNODE *in_hash[], char *name, int value, int create);
 HASHNODE *new_hashnode(char *name, int value, HASHNODE *next);
 void print(HASHNODE *in_hash[]);
