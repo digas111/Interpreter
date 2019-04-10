@@ -9,4 +9,3 @@ libraries:
 		mv *.o ../Libraries; \
 		cd -; \
 	done
-

@@ -12,6 +12,10 @@ int main(int argc, char **argv) {
 
  if (DEBUG) printf("FILE_NAME: _%s_\n", file);
 
+ VHASHNODE *variables[NHASH];
+
+ 
+
 
 
  return 0;
