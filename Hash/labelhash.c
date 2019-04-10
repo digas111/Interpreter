@@ -32,7 +32,7 @@ NODE *get_label(LHASHNODE *in_hash[], char *name) {
 }
 
 //saves the variabel's value
-LHASHNODE *save(LHASHNODE *in_hash[], char *name, NODE *label) {
+LHASHNODE *lsave(LHASHNODE *in_hash[], char *name, NODE *label) {
 
   unsigned int i = hash(name);
   LHASHNODE *l = in_hash[i];

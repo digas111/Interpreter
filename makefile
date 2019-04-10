@@ -8,6 +8,6 @@ libraries:
 		mv *.o ../Libraries; \
 		cd -; \
 	done
-	gcc -Wall Main/main.c -o main
+	gcc -Wall main.c -o main
 clean:
 	rm -rf Libraries/

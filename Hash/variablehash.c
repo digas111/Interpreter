@@ -31,7 +31,7 @@ VHASHNODE *get_var(VHASHNODE *in_hash[], char *name) {
 }
 
 //saves the variabel's value
-VHASHNODE *save(VHASHNODE *in_hash[], char *name, int value) {
+VHASHNODE *vsave(VHASHNODE *in_hash[], char *name, int value) {
 
   unsigned int i = hash(name);
   VHASHNODE *l = in_hash[i];
