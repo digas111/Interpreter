@@ -1,3 +1,6 @@
+#ifndef INSTR_H
+#define INSTR_H
+
 typedef enum {READ, PRINT, IF, GOTO, LABEL, QUIT, ADD, SUB, DIV, MUL, ATRIB} OpKind;
 
 typedef struct{
@@ -15,3 +18,5 @@ char *keywords[] = {".ler(", ".if", ".escrever(", ".goto", ".label", ".quit", "+
 
 Instr *new_instr(OpKind k,char *e1, char *e2, char *e3);
 Instr *instrfy(char *line);
+
+#endif

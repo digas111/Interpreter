@@ -1,3 +1,6 @@
+#ifndef LINKEDLIST_H
+#define LINKEDLIST_H
+
 #include "../Instr/instr.h"
 
 typedef struct node{
@@ -15,3 +18,5 @@ NODE *new_node(Instr *instr);
 NODE *add_last(Instr *i, NODE *list);
 void print_llist(NODE *list);
 int length(NODE *list);
+
+#endif

@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "Hash/hash.h"
+#include "Instr/instr.h"
+#include "LinkedList/linkedList.h"
 
 
 #define DEBUG 1
