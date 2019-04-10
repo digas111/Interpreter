@@ -4,8 +4,8 @@ CFLAGS = -Wall
 
 all: interpreter
 
-interpreter: main.o instr.o hash.o linkedlist.o read.o
-	$(CC) main.o instr.o hash.o linkedlist.o read.o -o interpreter
+interpreter:  hash.o linkedlist.o read.o instr.o main.o
+	$(CC)  hash.o linkedlist.o read.o instr.o main.o -o interpreter
 
 main.o: main.c
 	$(CC) $(CFLAGS) main.c
