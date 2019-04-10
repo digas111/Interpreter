@@ -13,13 +13,13 @@ typedef struct vhashnode {
 
 //----------------------------------------
 
-HASHNODE *lookup(HASHNODE *in_hash[], char *name, int value, int create);
-HASHNODE *new_hashnode(char *name, int value, HASHNODE *next);
-void print(HASHNODE *in_hash[]);
+VHASHNODE *new_vhashnode(char *name, int value, VHASHNODE *next);
+VHASHNODE *get_var(VHASHNODE *in_hash[], char *name);
+void print(VHASHNODE *in_hash[]);
 
 //----------------------------------------
 
-HASHNODE *Hashtable[NHASH];
+// HASHNODE *Hashtable[NHASH];
 
 
 

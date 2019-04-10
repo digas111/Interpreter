@@ -1,41 +1,29 @@
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include "variablehash.h"
+#include "hash.h"
 
 //VHASHNODE *Hashtable[NHASH];
 
 VHASHNODE *new_vhashnode(char *name, int value, VHASHNODE *next) {
   VHASHNODE *l = (VHASHNODE *) malloc (sizeof (VHASHNODE));
-  HNAME(l) = name;
-  HVALUE(l) = value;
-  HNEXT(l) = next;
+  NAME(l) = name;
+  VVALUE(l) = value;
+  NEXT(l) = next;
   return l;
 }
 
-unsigned int hash(char *str) {
- unsigned int res = 0;
+VHASHNODE *get_var(VHASHNODE *in_hash[], char *name) {
 
- while(*str != '\0'){
-
-  res = res * MULTIPLICADOR + *str;
-  str++;
-
- }
- return res%NHASH;
-}
-
-int get_value(VHASHNODE *in_hash[], char *name) {
-
-
-  unsigned inti = hash(name);
+  unsigned int i = hash(name);
   VHASHNODE *l = in_hash[i];
 
   while(l != NULL) {
-    if (strcmp(name, HNAME(l))==0) {
-      return HVALUE(l);
+    if (strcmp(name, NAME(l))==0) {
+      return l;
     }
-    l = HNEXT(l);
+    l = NEXT(l);
   }
 
   return NULL;
@@ -50,12 +38,12 @@ VHASHNODE *save(VHASHNODE *in_hash[], char *name, int value) {
 
   while(l!=NULL) {
 
-    if (strcmp(name, HNAME(l))==0) {
-      HVALUE(l) = value;
+    if (strcmp(name, NAME(l))==0) {
+      VVALUE(l) = value;
       return l;
     }
 
-    l = HNEXT(l);
+    l = NEXT(l);
 
   }
 
@@ -77,8 +65,8 @@ void print(VHASHNODE *in_hash[]) {
   for(i=0; i<NHASH;i++) {
     if ((l = in_hash[i])!=NULL) {
       while(l!=NULL) {
-        printf("NAME: %s - VALUE:%d\n", HNAME(l),HVALUE(l));
-        l = HNEXT(l);
+        printf("NAME: %s - VALUE:%d\n", NAME(l),VVALUE(l));
+        l = NEXT(l);
       }
       printf("\n");
     }

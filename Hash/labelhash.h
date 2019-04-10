@@ -14,7 +14,7 @@ typedef struct lhashnode {
 
 //----------------------------------------
 
-LHASHNODE *new_lhashnode(char *name, NODE *label,int value, LHASHNODE *next);
+LHASHNODE *new_lhashnode(char *name, NODE *label, LHASHNODE *next);
 NODE *get_label(LHASHNODE *in_hash[], char *name);
 LHASHNODE *save(LHASHNODE *in_hash[], char *name, NODE *label);
 

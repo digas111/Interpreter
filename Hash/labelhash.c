@@ -2,28 +2,29 @@
 #include<string.h>
 #include<stdlib.h>
 #include "labelhash.h"
+#include "hash.h"
 
 //LHASHNODE *Hashtable[NHASH];
 
-LHASHNODE *new_lhashnode(char *name, NODE *label,int value, LHASHNODE *next) {
+LHASHNODE *new_lhashnode(char *name, NODE *label, LHASHNODE *next) {
   LHASHNODE *l = (LHASHNODE *) malloc (sizeof (LHASHNODE));
-  HNAME(l) = name;
+  NAME(l) = name;
   LNODE(l) = label;
-  HNEXT(l) = next;
+  NEXT(l) = next;
   return l;
 }
 
 //return the label NODE
 NODE *get_label(LHASHNODE *in_hash[], char *name) {
 
-  unsigned inti = hash(name);
+  unsigned int i = hash(name);
   LHASHNODE *l = in_hash[i];
 
   while(l != NULL) {
-    if (strcmp(name, HNAME(l))==0) {
+    if (strcmp(name, NAME(l))==0) {
       return LNODE(l);
     }
-    l = HNEXT(l);
+    l = NEXT(l);
   }
 
   return NULL;
@@ -38,12 +39,12 @@ LHASHNODE *save(LHASHNODE *in_hash[], char *name, NODE *label) {
 
   while(l!=NULL) {
 
-    if (strcmp(name, HNAME(l))==0) {
+    if (strcmp(name, NAME(l))==0) {
       LNODE(l) = label;
       return l;
     }
 
-    l = HNEXT(l);
+    l = NEXT(l);
 
   }
 
