@@ -1,13 +1,3 @@
-LIBS = Exec Hash Instr LinkedList Read
+compile:
+	gcc -Wall Exec/*.c Hash/*.c Instr/*.c LinkedList/*.c Read/*.c main.c
 
-libraries:
-	mkdir Libraries/
-	for dir in $(LIBS); do \
-		cd $$dir; \
-		gcc -Wall -c *.c -I../; \
-		mv *.o ../Libraries; \
-		cd -; \
-	done
-	gcc -Wall Main/main.c -o main
-clean:
-	rm -rf Libraries/
