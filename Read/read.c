@@ -2,8 +2,8 @@
 #include<stdlib.h>
 #include<string.h>
 #include "read.h"
+#include "../LinkedList/linkedList.h"
 
-NODE *lista_instr = NULL;
 
 char* string_add_last(char string[], int *size, char c) {
 
