@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include "read.h"
-#include "../LinkedList/linkedList.h"
+#include "linkedlist.h"
 
 
 char* string_add_last(char string[], int *size, char c) {

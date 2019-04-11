@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include "Hash/hash.h"
-#include "Instr/instr.h"
-#include "LinkedList/linkedList.h"
-#include "Hash/variablehash.h"
-#include "Hash/labelhash.h"
+#include "hash.h"
+#include "variablehash.h"
+#include "labelhash.h"
+#include "linkedlist.h"
+#include "instr.h"
 
 
 #define DEBUG 1
@@ -16,8 +16,6 @@ int main(int argc, char **argv) {
  vsave(variables, "boas", 1);
  //
  // print(variables);
-
-
 
  return 0;
 

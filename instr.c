@@ -3,10 +3,6 @@
 #include <string.h>
 #include "instr.h"
 
-// int main() {
-//
-// }
-
 Instr *new_instr(OpKind k,char *e1, char *e2, char *e3){
     Instr *i = (Instr*) malloc(sizeof(Instr));
     i->op = k;

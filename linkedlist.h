@@ -1,7 +1,7 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-#include "../Instr/instr.h"
+#include "instr.h"
 
 typedef struct node{
     Instr *instr;

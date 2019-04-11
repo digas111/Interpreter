@@ -1,8 +1,8 @@
 #ifndef HASH_H
 #define HASH_H
 
-#include "variablehash.h"
-#include "labelhash.h"
+// #include "variablehash.h"
+// #include "labelhash.h"
 
 #define NAME(P)((P) -> name)
 #define NEXT(P)((P) -> next)

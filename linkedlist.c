@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "linkedList.h"
+#include "linkedlist.h"
 
 NODE *new_node(Instr *i){
     NODE *l = (NODE*)malloc(sizeof(NODE));

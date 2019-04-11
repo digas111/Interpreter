@@ -1,6 +1,6 @@
 #ifndef LABELHASH_H
 #define LABELHASH_H
-#include "../LinkedList/linkedList.h"
+#include "linkedlist.h"
 
 #define LNODE(P)((P) -> label)
 
