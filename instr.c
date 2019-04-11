@@ -3,6 +3,9 @@
 #include <string.h>
 #include "instr.h"
 
+char *keywords[SIZEKEYW] =  {".ler(", ".if", ".escrever(", ".goto", ".label", ".quit", "+", "-", "*", "/"};
+
+
 Instr *new_instr(OpKind k,char *e1, char *e2, char *e3){
     Instr *i = (Instr*) malloc(sizeof(Instr));
     i->op = k;

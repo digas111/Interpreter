@@ -11,7 +11,7 @@ typedef struct node{
 #define INSTR(P)((P)->instr)
 #define NXT(P)((P)->nxt)
 
-NODE *lista_instr = NULL;
+extern NODE *lista_instr;
 
 
 NODE *new_node(Instr *instr);

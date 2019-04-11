@@ -32,11 +32,11 @@ VHASHNODE *get_var(VHASHNODE *in_hash[], char *name) {
 
 //saves the variabel's value
 VHASHNODE *vsave(VHASHNODE *in_hash[], char *name, int value) {
-
   unsigned int i = hash(name);
   VHASHNODE *l = in_hash[i];
 
   while(l!=NULL) {
+
 
     if (strcmp(name, NAME(l))==0) {
       VVALUE(l) = value;

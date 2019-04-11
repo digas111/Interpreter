@@ -14,7 +14,7 @@ typedef struct{
 
 //VARIAVEIS GLOBAIS
 
-char *keywords[] = {".ler(", ".if", ".escrever(", ".goto", ".label", ".quit", "+", "-", "*", "/"};
+extern char *keywords[SIZEKEYW];
 
 Instr *new_instr(OpKind k,char *e1, char *e2, char *e3);
 Instr *instrfy(char *line);

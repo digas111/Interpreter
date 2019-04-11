@@ -14,8 +14,6 @@ int main(int argc, char **argv) {
  VHASHNODE *variables[NHASH];
 
  vsave(variables, "boas", 1);
- //
- // print(variables);
 
  return 0;
 
