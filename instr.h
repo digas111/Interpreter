@@ -1,11 +1,24 @@
 #ifndef INSTR_H
 #define INSTR_H
 
-typedef enum {READ, PRINT, IF, GOTO, LABEL, QUIT, ADD, SUB, DIV, MUL, ATRIB} OpKind;
+typedef enum {EMPTY, INT_VAR, INT_CONST, FLOAT_VAR, FLOAT_CONST, LABEL}ElemKind;
+
+typedef enum {READ, PRINT, IF, GOTO, QUIT, ADD, SUB, DIV, MUL, ATRIB} OpKind;
+
+union contents{
+    char *name;
+    int ivalue;
+    float fvalue;
+    };
+
+typedef struct{
+    ElemKind kind;
+    union contents info;
+}Elem;
 
 typedef struct{
     OpKind op;
-    char *elem1, *elem2, *elem3;
+    Elem *elem1, *elem2, *elem3;
 } Instr;
 
 #define SIZEKEYW 10
@@ -16,7 +29,8 @@ typedef struct{
 
 extern char *keywords[SIZEKEYW];
 
-Instr *new_instr(OpKind k,char *e1, char *e2, char *e3);
+Elem *new_elem(ElemKind k, union contents data);
+Instr *new_instr(OpKind k, Elem *e1, Elem *e2, Elem *e3);
 Instr *instrfy(char *line);
 
 #endif

@@ -5,14 +5,34 @@
 
 char *keywords[SIZEKEYW] =  {".ler(", ".if", ".escrever(", ".goto", ".label", ".quit", "+", "-", "*", "/"};
 
+Instr *new_instr(OpKind k, Elem *e1, Elem *e2, Elem *e3){
+  Instr *i = (Instr*) malloc(sizeof(Instr));
+  i->op = k;
+  i->elem1 = e1;
+  i->elem2 = e2;
+  i->elem3 = e3;
+  return i;
+}
 
-Instr *new_instr(OpKind k,char *e1, char *e2, char *e3){
-    Instr *i = (Instr*) malloc(sizeof(Instr));
-    i->op = k;
-    i->elem1 = e1;
-    i->elem2 = e2;
-    i->elem3 = e3;
-    return i;
+Elem *new_elem(ElemKind k, union contents data){
+  Elem *e = (Elem*) malloc(sizeof(Elem));
+    e->kind = k;
+  switch(k){
+    case EMPTY:
+      break;
+    case INT_VAR:
+    case FLOAT_VAR:
+    case LABEL:
+      e->info.name = data.name;
+      break;
+    case INT_CONST:
+      e->info.ivalue = data.ivalue;
+      break;
+    case FLOAT_CONST:
+      e->info.fvalue = data.fvalue;
+      break;
+  }
+  return e;
 }
 
 Instr* instrfy(char *linha) {
@@ -26,12 +46,7 @@ Instr* instrfy(char *linha) {
     if(token != NULL) break;
   }
 
-
-  //////////////////
-
   strcpy(str, linha);
-
-  //////////////////
 
   printf("pre switch\n");
 
@@ -41,7 +56,7 @@ Instr* instrfy(char *linha) {
       strtok(str, "(");
       token = strtok(NULL, ")");
       if (DEBUG) printf("|%s|\n", token);
-      in = new_instr(READ, token, NULL, NULL);
+      in = new_instr(READ, new_elem(EMPTY, token), NULL, NULL);
       break;
     case 1: //if _ goto _
       if (DEBUG) printf("case 1\n");
