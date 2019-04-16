@@ -23,7 +23,7 @@ typedef struct{
 
 #define SIZEKEYW 10
 
-#define DEBUG 1
+
 
 //VARIAVEIS GLOBAIS
 

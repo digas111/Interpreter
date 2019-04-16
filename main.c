@@ -1,20 +1,29 @@
 #include <stdio.h>
 #include "hash.h"
-#include "variablehash.h"
-#include "labelhash.h"
 #include "linkedlist.h"
 #include "instr.h"
 
+#define MDEBUG 1
 
-#define DEBUG 1
 
 int main(int argc, char **argv) {
 
+  //char *file = argv[1];
 
- VHASHNODE *variables[NHASH];
+  if (MDEBUG) {
 
- vsave(variables, "boas", 1);
+    union hash data;
+    data.ivalue = 2;
 
- return 0;
+    save(INT,"var",data);
+    data.fvalue = 2.2;
+    save(FLOAT,"var2",data);
+    print();
+
+  }
+
+
+
+  return 0;
 
 }
