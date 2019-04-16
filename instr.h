@@ -1,6 +1,12 @@
 #ifndef INSTR_H
 #define INSTR_H
 
+//________________________________________
+
+#define DEBUG 1
+
+//________________________________________
+
 typedef enum {READ, PRINT, IF, GOTO, LABEL, QUIT, ADD, SUB, DIV, MUL, ATRIB} OpKind;
 
 typedef struct{
@@ -10,7 +16,7 @@ typedef struct{
 
 #define SIZEKEYW 10
 
-#define DEBUG 1
+
 
 //VARIAVEIS GLOBAIS
 
