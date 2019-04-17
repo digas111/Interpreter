@@ -52,84 +52,65 @@ Instr* instrfy(char *linha) {
 
   switch(i) {
     case 0: //ler(_);
-      if (DEBUG) printf("case 0\n");
-      strtok(str, "(");
-      token = strtok(NULL, ")");
-      if (DEBUG) printf("|%s|\n", token);
-      return(new_instr(READ, new_elem(INT_VAR, token, 0, 0), NULL, NULL);
-      break;
+      return(new_instr_RWL(str, READ, INT_VAR, "(", ")"));
     case 1: //if _ goto _
-      if (DEBUG) printf("case 1\n");
-      strtok(str, " ");
-      token = strtok(NULL, " goto "); // token = (condition)
-      if (DEBUG) printf("|%s|\n", token);
-      strtok(NULL," ");
-      token2 = strtok(NULL,"\0"); // token = LX
-      if (DEBUG) printf("|%s|\n", token2);
-      return (new_instr(IF, new_elem(INT_VAR, token, 0, 0), new_elem(INT_CONST, token, 0, 0), NULL));
-      break;
+      return(new_instr_if(str));
     case 2: //escrever(_);
-      if (DEBUG) printf("case 2\n");
-      strtok(str, "(");
-      token = strtok(NULL, ")");
-      if (DEBUG) printf("|%s|\n",token);
-      return (new_instr(PRINT, new_elem(INT_VAR, token, 0, 0), NULL, NULL));
-      break;
+      return(new_instr_RWL(str, PRINT, INT_VAR, "(", ")"));
     case 3: //goto _
-      if (DEBUG) printf("case 3\n");
-      strtok(str, " ");
-      token = strtok(token, "\0");
-      if (DEBUG) printf("|%s|\n",token);
-      return(new_instr(GOTO, new_elem(LABEL, token, 0, 0), NULL, NULL));
-      break;
+      return(new_instr_RWL(str, GOTO, LABEL, " ", "\0"));
     case 4: //label
-      if (DEBUG) printf("case 4\n");
-      strtok(str, " ");
-      token = strtok(token, "\0");
-      if (DEBUG) printf("|%s|\n",token);
-      return(new_instr(LABEL_I, new_elem(LABEL, token, 0, 0), NULL, NULL));
-      break;
+      return(new_instr_RWL(str, LABEL_I, LABEL, " ", "\0"));
     case 5: //"-quit"
-      if (DEBUG) printf("case 5\n");
       return(new_instr(QUIT,NULL,NULL,NULL));
-      break;
     case 6: // ADD
-      return(aux_instrfy_op(str, "+", ADD));
+      return(new_instrfy_op(str, "+", ADD));
     case 7: // SUB
-      return(aux_instrfy_op(str, "-", SUB));
+      return(new_instrfy_op(str, "-", SUB));
     case 8: // MUL
-     return(aux_instrfy_op(str, "*", MUL));
+      return(new_instrfy_op(str, "*", MUL));
     case 9: // DIV
-      return(aux_instrfy_op(str, "/", DIV));
+      return(new_instrfy_op(str, "/", DIV));
     case 10: // ATRIB
-      if (DEBUG)  printf("case 10\n");
-      token = strtok(str, ".");
-      token = strtok(token, "=");
-      if (DEBUG) printf("%s\n",token);
-      token2 = strtok(NULL, "\0");
-      if (DEBUG) printf("%s\n",token2);
-      in = new_instr(ATRIB, token, token2, NULL);
-      break;
+      return(new_instr_atrib(str));
     default:
       printf("ERRO\n");
-
     }
-    return in;
+    return NULL;
 }
 
+Instr* new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char delim2[]){
+  char *token;
+  strtok(str, "(");
+  token = strtok(NULL, ")");
+  return (new_instr(opk, new_elem(elk, token, 0, 0), NULL, NULL));
+}
 
-Instr* aux_instrfy_op(char str[], char op[], OpKind k){
+Instr* new_instr_if(char str[]){
+  char* token, token2;
+  strtok(str, " ");
+  token = strtok(NULL, " goto "); // token = (condition)
+  strtok(NULL," ");
+  token2 = strtok(NULL, "\0"); // token = LX
+  return (new_instr(IF, new_elem(INT_VAR, token, 0, 0), new_elem(LABEL, token, 0, 0), NULL));
+}
+
+Instr* new_instr_op(char str[], char op[], OpKind k){
   char *token, token2, token3;
-  Elem *e1, *e2, *e3;
   int v;
   token = strtok(str, ".");
-  e1 = new_elem(INT_VAR, token, 0, 0);
   token = strtok(token, "=");
   token2 = strtok(NULL, op);
-  e2 = is_number(token2);
   token3 = strtok(NULL, "\0");
-  e3 = is_number(token3); 
-  return(new_instr(k,e1, e2, e3));
+  return(new_instr(k, new_elem(INT_VAR, token, 0, 0), is_number(token2), is_number(token3)));
+}
+
+Instr* new_instr_atrib(char str[]){
+  char *token, *token2;
+  token = strtok(str, ".");
+  token = strtok(token, "=");
+  token2 = strtok(NULL, "\0");
+  return(new_instr(ATRIB, token, token2, NULL));
 }
 
 Elem *is_number(char *token){
@@ -139,5 +120,31 @@ Elem *is_number(char *token){
     }
   else{
     return(new_elem(INT_VAR, token, 0, 0));
+  }
+}
+
+void print_instr(Instr* i){
+  printf("Instruction: %d", i->op);
+  print_elem(i->elem1);
+  print_elem(i->elem2);
+  print_elem(i->elem3);
+}
+
+void print_elem(Elem* e){
+  switch(e->kind){
+    case EMPTY:
+        printf("EMPTY\n");
+      break;
+    case INT_VAR:
+    case FLOAT_VAR:
+    case LABEL:
+      printf("name: %s\n", e->contents.name);
+      break;
+    case INT_CONST:
+      printf("int: %d\n", e->contents.intval);
+      break;
+    case FLOAT_CONST:
+      printf("float: %f\n", e->contents.fvalue);
+      break;
   }
 }

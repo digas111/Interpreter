@@ -24,15 +24,14 @@ NODE *add_last(Instr *i, NODE *list){
     return list;
 }
 
-void print_lista(NODE *list){
+void print_llist(NODE *list){
   NODE *curr = list;
   if(curr==NULL) printf("Lista vazia\n");
   while(curr!=NULL){
-    printf("---------------------------\nOpKind = %d First: %s Second: %s Third: %s\n----------------------------\n", curr->instr->op, curr->instr->elem1, curr->instr->elem2, curr->instr->elem3);
+    print_instr(list->instr);
   curr = NXT(curr);
   }
 }
-
 
 int length(NODE *list){
     if(list==NULL) return 0;

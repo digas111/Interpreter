@@ -32,5 +32,5 @@ extern char *keywords[SIZEKEYW];
 Elem *new_elem(ElemKind k, char *n, int v, float f);
 Instr *new_instr(OpKind k, Elem *e1, Elem *e2, Elem *e3);
 Instr *instrfy(char *line);
-
+void print_instr(Instr* i);
 #endif
