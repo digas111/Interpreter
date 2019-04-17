@@ -33,4 +33,13 @@ Elem *new_elem(ElemKind k, char *n, int v, float f);
 Instr *new_instr(OpKind k, Elem *e1, Elem *e2, Elem *e3);
 Instr *instrfy(char *line);
 void print_instr(Instr* i);
+
+Instr* new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char delim2[]);
+Instr* new_instr_if(char str[]);
+Instr* new_instr_op(char str[], char op[], OpKind k);
+Instr* new_instr_atrib(char str[]);
+Elem *is_number(char *token);
+void print_instr(Instr* i);
+void print_elem(Elem* e);
+
 #endif

@@ -15,9 +15,9 @@ unsigned int hash(char *str) {
   return res%NHASH;
 }
 
-HASHNODE *setdata(HASHNODE *l,Elkind kind, union hash data) {
+HASHNODE *setdata(HASHNODE *l, union hash data) {
 
-  switch (kind) {
+  switch (KIND(l)) {
     case INT:
     IVALUE(l) = data.ivalue;
     case FLOAT:
@@ -39,7 +39,7 @@ HASHNODE *new_hashnode(Elkind kind, char *name, union hash data, HASHNODE *next)
   NEXT(l) = next;
   KIND(l) = kind;
 
-  l = setdata(l,kind,data);
+  l = setdata(l,data);
 
   return l;
 
@@ -54,7 +54,7 @@ HASHNODE *save(Elkind kind, char *name, union hash data) {
   while (l != NULL) {
 
     if (strcmp(name,NAME(l))==0) {
-      l = setdata(l,kind,data);
+      l = setdata(l,data);
       return l;
     }
 

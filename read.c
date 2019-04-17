@@ -83,17 +83,7 @@ void file_to_llist(char file_name[]) {
           line = dell_spaces(line);
         }
 
-        // Instr *instr = instrfy(line);
-        //
-        // printf("aqui\n");
-        // printf("OpKind = %d\n", instr->op);
-        // printf("First.name: _%s_\n",instr->first->contents.inte.name);
-        // printf("Second.name: _%s_\n",instr->second->contents.inte.name);
-        // printf("Third.name: _%s_\n\n",instr->third->contents.inte.name);
-
-
-        lista_instr = add_last(instrfy(line),lista_instr);
-
+        add_last(instrfy(line));
 
         printf("line %d: %s-\n", i,line);
 

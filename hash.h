@@ -43,7 +43,7 @@ HASHNODE *hashtable[NHASH];
 unsigned int hash(char *str);
 
 
-HASHNODE *setdata(HASHNODE *l,Elkind kind, union hash data);
+HASHNODE *setdata(HASHNODE *l, union hash data);
 HASHNODE *new_hashnode(Elkind kind, char *name, union hash data, HASHNODE *next);
 HASHNODE *save(Elkind kind,char *name, union hash data);
 void print();

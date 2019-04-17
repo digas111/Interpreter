@@ -1,16 +1,18 @@
 #include <stdio.h>
+#include "read.h"
 #include "hash.h"
 #include "linkedlist.h"
 #include "instr.h"
 
 #define MDEBUG 1
 
-
 int main(int argc, char **argv) {
 
-  //char *file = argv[1];
+  char *file = argv[1];
 
   if (MDEBUG) {
+
+    file_to_llist(file);
 
     union hash data;
     data.ivalue = 2;
@@ -20,9 +22,10 @@ int main(int argc, char **argv) {
     save(FLOAT,"var2",data);
     print();
 
+    print_lista();
+
+
   }
-
-
 
   return 0;
 

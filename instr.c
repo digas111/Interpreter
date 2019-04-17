@@ -36,8 +36,7 @@ Elem *new_elem(ElemKind k, char *n, int v, float f){
 }
 
 Instr* instrfy(char *linha) {
-  Instr *in = NULL;
-  char *token, *token2, *token3;
+  char *token;
   char str[30];
   int i;
   //ciclo pra encontrar a needle
@@ -64,13 +63,13 @@ Instr* instrfy(char *linha) {
     case 5: //"-quit"
       return(new_instr(QUIT,NULL,NULL,NULL));
     case 6: // ADD
-      return(new_instrfy_op(str, "+", ADD));
+      return(new_instr_op(str, "+", ADD));
     case 7: // SUB
-      return(new_instrfy_op(str, "-", SUB));
+      return(new_instr_op(str, "-", SUB));
     case 8: // MUL
-      return(new_instrfy_op(str, "*", MUL));
+      return(new_instr_op(str, "*", MUL));
     case 9: // DIV
-      return(new_instrfy_op(str, "/", DIV));
+      return(new_instr_op(str, "/", DIV));
     case 10: // ATRIB
       return(new_instr_atrib(str));
     default:
@@ -81,13 +80,13 @@ Instr* instrfy(char *linha) {
 
 Instr* new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char delim2[]){
   char *token;
-  strtok(str, "(");
-  token = strtok(NULL, ")");
+  strtok(str, delim1);
+  token = strtok(NULL, delim2);
   return (new_instr(opk, new_elem(elk, token, 0, 0), NULL, NULL));
 }
 
 Instr* new_instr_if(char str[]){
-  char* token, token2;
+  char* token, *token2;
   strtok(str, " ");
   token = strtok(NULL, " goto "); // token = (condition)
   strtok(NULL," ");
@@ -96,8 +95,7 @@ Instr* new_instr_if(char str[]){
 }
 
 Instr* new_instr_op(char str[], char op[], OpKind k){
-  char *token, token2, token3;
-  int v;
+  char *token, *token2, *token3;
   token = strtok(str, ".");
   token = strtok(token, "=");
   token2 = strtok(NULL, op);
@@ -110,7 +108,7 @@ Instr* new_instr_atrib(char str[]){
   token = strtok(str, ".");
   token = strtok(token, "=");
   token2 = strtok(NULL, "\0");
-  return(new_instr(ATRIB, token, token2, NULL));
+  return(new_instr(ATRIB, new_elem(INT_VAR, token, 0, 0), is_number(token2),NULL));
 }
 
 Elem *is_number(char *token){
