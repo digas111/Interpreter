@@ -83,9 +83,11 @@ void file_to_llist(char file_name[]) {
           line = dell_spaces(line);
         }
 
+        printf("line %d: %s-\n", i,line);
+
         add_last(instrfy(line));
 
-        printf("line %d: %s-\n", i,line);
+
 
 
       }

@@ -5,37 +5,49 @@
 
 char *keywords[SIZEKEYW] =  {".ler(", ".if", ".escrever(", ".goto", ".label", ".quit", "+", "-", "*", "/"};
 
-Instr *new_instr(OpKind k, Elem *e1, Elem *e2, Elem *e3){
-  Instr *i = (Instr*) malloc(sizeof(Instr));
-  i->op = k;
-  i->elem1 = e1;
-  i->elem2 = e2;
-  i->elem3 = e3;
+Instr new_instr(OpKind k, Elem e1, Elem e2, Elem e3){
+  Instr i;
+  i.op = k;
+  i.elem1 = e1;
+  printf("new_instr - n: %s\n", i.elem1.contents.name);
+  i.elem2 = e2;
+  i.elem3 = e3;
   return i;
 }
 
-Elem *new_elem(ElemKind k, char *n, int v, float f){
-  Elem *e = (Elem*) malloc(sizeof(Elem));
-    e->kind = k;
+Elem new_elem_empty() {
+  Elem e;
+  e.kind = EMPTY;
+  return e;
+}
+
+Elem new_elem(ElemKind k, char *n, int v, float f) {
+  Elem e;
+    e.kind = k;
   switch(k){
     case EMPTY:
       break;
     case INT_VAR:
     case FLOAT_VAR:
     case LABEL:
-      e->contents.name = n;
+
+      e.contents.name = strdup(n);
+      printf("n: %s\n", e.contents.name);
+      return e;
       break;
     case INT_CONST:
-      e->contents.intval = v;
+      e.contents.intval = v;
+      return e;
       break;
     case FLOAT_CONST:
-      e->contents.fvalue = f;
+      e.contents.fvalue = f;
+      return e;
       break;
   }
   return e;
 }
 
-Instr* instrfy(char *linha) {
+Instr instrfy(char *linha) {
   char *token;
   char str[30];
   int i;
@@ -46,8 +58,6 @@ Instr* instrfy(char *linha) {
   }
 
   strcpy(str, linha);
-
-  printf("pre switch\n");
 
   switch(i) {
     case 0: //ler(_);
@@ -61,7 +71,7 @@ Instr* instrfy(char *linha) {
     case 4: //label
       return(new_instr_RWL(str, LABEL_I, LABEL, " ", "\0"));
     case 5: //"-quit"
-      return(new_instr(QUIT,NULL,NULL,NULL));
+      return(new_instr(QUIT,new_elem(EMPTY,NULL,0,0),new_elem(EMPTY,NULL,0,0),new_elem(EMPTY,NULL,0,0)));
     case 6: // ADD
       return(new_instr_op(str, "+", ADD));
     case 7: // SUB
@@ -75,26 +85,27 @@ Instr* instrfy(char *linha) {
     default:
       printf("ERRO\n");
     }
-    return NULL;
+    return new_instr(ERROR,new_elem(EMPTY,NULL,0,0),new_elem(EMPTY,NULL,0,0),new_elem(EMPTY,NULL,0,0));
 }
 
-Instr* new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char delim2[]){
+Instr new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char delim2[]){
   char *token;
   strtok(str, delim1);
   token = strtok(NULL, delim2);
-  return (new_instr(opk, new_elem(elk, token, 0, 0), NULL, NULL));
+  printf("token: %s\n",token);
+  return (new_instr(opk, new_elem(elk, token, 0, 0), new_elem(EMPTY,NULL,0,0), new_elem(EMPTY,NULL,0,0)));
 }
 
-Instr* new_instr_if(char str[]){
+Instr new_instr_if(char str[]){
   char* token, *token2;
   strtok(str, " ");
   token = strtok(NULL, " goto "); // token = (condition)
   strtok(NULL," ");
   token2 = strtok(NULL, "\0"); // token = LX
-  return (new_instr(IF, new_elem(INT_VAR, token, 0, 0), new_elem(LABEL, token, 0, 0), NULL));
+  return (new_instr(IF, new_elem(INT_VAR, token, 0, 0), new_elem(LABEL, token, 0, 0), new_elem(EMPTY,NULL,0,0)));
 }
 
-Instr* new_instr_op(char str[], char op[], OpKind k){
+Instr new_instr_op(char str[], char op[], OpKind k){
   char *token, *token2, *token3;
   token = strtok(str, ".");
   token = strtok(token, "=");
@@ -103,15 +114,15 @@ Instr* new_instr_op(char str[], char op[], OpKind k){
   return(new_instr(k, new_elem(INT_VAR, token, 0, 0), is_number(token2), is_number(token3)));
 }
 
-Instr* new_instr_atrib(char str[]){
+Instr new_instr_atrib(char str[]){
   char *token, *token2;
   token = strtok(str, ".");
   token = strtok(token, "=");
   token2 = strtok(NULL, "\0");
-  return(new_instr(ATRIB, new_elem(INT_VAR, token, 0, 0), is_number(token2),NULL));
+  return(new_instr(ATRIB, new_elem(INT_VAR, token, 0, 0), is_number(token2),new_elem(EMPTY,NULL,0,0)));
 }
 
-Elem *is_number(char *token){
+Elem is_number(char *token){
   int v;
   if((v=atoi(token)) != 0 || strcmp(token, "0") == 0){
     return(new_elem(INT_CONST, NULL, v, 0));
@@ -121,28 +132,32 @@ Elem *is_number(char *token){
   }
 }
 
-void print_instr(Instr* i){
-  printf("Instruction: %d", i->op);
-  print_elem(i->elem1);
-  print_elem(i->elem2);
-  print_elem(i->elem3);
+void print_instr(Instr i){
+  printf("Instruction: %d\n", i.op);
+  // printf("EL1\n");
+  // printf("pos print_instr name: !%s!\n", i.elem1.contents.name);
+  print_elem(i.elem1);
+  // printf("EL2\n");
+  print_elem(i.elem2);
+  // printf("EL3\n");
+  print_elem(i.elem3);
 }
 
-void print_elem(Elem* e){
-  switch(e->kind){
+void print_elem(Elem e){
+  switch(e.kind){
     case EMPTY:
         printf("EMPTY\n");
       break;
     case INT_VAR:
     case FLOAT_VAR:
     case LABEL:
-      printf("name: %s\n", e->contents.name);
+      printf("name: %s\n", e.contents.name);
       break;
     case INT_CONST:
-      printf("int: %d\n", e->contents.intval);
+      printf("int: %d\n", e.contents.intval);
       break;
     case FLOAT_CONST:
-      printf("float: %f\n", e->contents.fvalue);
+      printf("float: %f\n", e.contents.fvalue);
       break;
   }
 }

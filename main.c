@@ -20,9 +20,11 @@ int main(int argc, char **argv) {
     save(INT,"var",data);
     data.fvalue = 2.2;
     save(FLOAT,"var2",data);
-    print();
 
-    print_lista();
+
+    print_llist();
+
+    print();
 
 
   }

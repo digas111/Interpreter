@@ -7,15 +7,15 @@
 #define NXT(P)((P)->nxt)
 
 typedef struct node{
-    Instr *instr;
+    Instr instr;
     struct node *nxt;
 }NODE;
 
 extern NODE *lista_instr;
 
-NODE *new_node(Instr *instr);
-NODE *add_last(Instr *i);
-void print_lista();
+NODE *new_node(Instr instr);
+void add_last(Instr i);
+void print_llist();
 int length();
 
 #endif
