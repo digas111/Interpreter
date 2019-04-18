@@ -8,23 +8,31 @@
 
 int main(int argc, char **argv) {
 
+  NODE *lista_instr = NULL;
+  HASHNODE *hashtable[NHASH];
+
   char *file = argv[1];
+
+  lista_instr = file_to_llist(file, lista_instr, hashtable);
 
   if (MDEBUG) {
 
-    file_to_llist(file);
+    // union hash data;
+    // data.ivalue = 2;
+    //
+    // save(hashtable,INT,"var",data);
+    // data.fvalue = 2.2;
+    // save(hashtable,FLOAT,"var2",data);
 
-    union hash data;
-    data.ivalue = 2;
+    print_llist(lista_instr);
 
-    save(INT,"var",data);
-    data.fvalue = 2.2;
-    save(FLOAT,"var2",data);
+    printf("__________EXEC_______\n");
 
+    exec_list(lista_instr, hashtable);
 
-    print_llist();
+    printf("_____________________\n");
 
-    print();
+    print_hash(hashtable);
 
 
   }

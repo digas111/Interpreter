@@ -102,7 +102,7 @@ Instr new_instr_if(char str[]){
   token = strtok(NULL, " goto "); // token = (condition)
   strtok(NULL," ");
   token2 = strtok(NULL, "\0"); // token = LX
-  return (new_instr(IF, new_elem(INT_VAR, token, 0, 0), new_elem(LABEL, token, 0, 0), new_elem(EMPTY,NULL,0,0)));
+  return (new_instr(IF, new_elem(INT_VAR, token, 0, 0), new_elem(LABEL, token2, 0, 0), new_elem(EMPTY,NULL,0,0)));
 }
 
 Instr new_instr_op(char str[], char op[], OpKind k){
@@ -124,12 +124,20 @@ Instr new_instr_atrib(char str[]){
 
 Elem is_number(char *token){
   int v;
-  if((v=atoi(token)) != 0 || strcmp(token, "0") == 0){
+  float f;
+
+  if ((strstr(token,".")!=NULL || strstr(token,",")!=NULL) && (f = atof(token)) != 0.0) {
+      return(new_elem(FLOAT_CONST, NULL, 0,f));
+  }
+
+  else if((v=atoi(token)) != 0 || strcmp(token, "0") == 0) {
     return(new_elem(INT_CONST, NULL, v, 0));
-    }
-  else{
+  }
+
+  else {
     return(new_elem(INT_VAR, token, 0, 0));
   }
+
 }
 
 void print_instr(Instr i){

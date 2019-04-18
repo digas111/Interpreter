@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include "read.h"
-#include "linkedlist.h"
+
 
 
 char* string_add_last(char string[], int *size, char c) {
@@ -43,7 +43,7 @@ char* dell_spaces(char *input) {
 
 }
 
-void file_to_llist(char file_name[]) {
+NODE *file_to_llist(char file_name[], NODE *lista_instr, HASHNODE *hashtable[]) {
 
   FILE * code;
   code = fopen(file_name, "r");
@@ -85,8 +85,11 @@ void file_to_llist(char file_name[]) {
 
         printf("line %d: %s-\n", i,line);
 
-        add_last(instrfy(line));
+        lista_instr = process_line(line, lista_instr, hashtable);
 
+        //Instr new = instrfy(line);
+
+        //void process_instr(new);
 
 
 
@@ -96,5 +99,116 @@ void file_to_llist(char file_name[]) {
   }
 
   fclose(code);
+  return lista_instr;
+
+}
+
+NODE *process_line(char *line,NODE *lista_instr, HASHNODE *hashtable[]) {
+
+  Instr new_instr = instrfy(line);
+
+  lista_instr = add_last(lista_instr,instrfy(line));
+
+  if (INSTROP(new_instr) == LABEL_I) {
+
+    union hash data;
+    data.label = last(lista_instr);
+
+    save(hashtable,INSTREELEM1(new_instr),data);
+
+  }
+
+
+  return lista_instr;
+
+}
+
+
+void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
+  while(lista_instr != NULL){
+    switch(INSTROP(INSTR(lista_instr))){
+      case 0: //READ
+        exec_read(INSTR(lista_instr), hashtable);
+        break;
+      case 1: //PRINT
+        exec_print(INSTR(lista_instr), hashtable);
+        break;
+      case 2: //IF
+        //exec_if(INSTR(lista_instr), hashtable);
+        break;
+      case 3: //GOTO
+        //exec_goto(INSTR(lista_instr), hashtable);
+        break;
+      case 4: //LABEL_I
+        //exec_label(INSTR(lista_instr), hashtable);
+        break;
+      case 5: //QUIT
+        return;
+      case 6: //ADD
+        //exec_conta(INSTR(lista_instr), hashtable);
+        break;
+      case 7: //SUB
+        //exec_conta(INSTR(lista_instr), hashtable);
+        break;
+      case 8: //DIV
+        //exec_conta(INSTR(lista_instr), hashtable);
+        break;
+      case 9: //MUL
+        //exec_conta(INSTR(lista_instr), hashtable);
+        break;
+      case 10: //ATRIB
+        //exec_conta(INSTR(lista_instr), hashtable);
+        break;
+      default:
+      break;
+    }
+  }
+}
+
+char* get_var() {
+  int i=0;
+  char c;
+  char *token;
+
+  for (i=0; (c = getc(stdin)) != "\n"; i++) {
+    token[i] = c;
+  }
+
+  token = string_add_last(token,&i,'\0');
+
+  return token;
+
+}
+
+
+void exec_read(Instr i, HASHNODE *hashtable[]) {
+  char *token = get_var();
+
+  save(hashtable,INSTREELEM1(i),var(token));
+
+}
+
+void exec_print(Instr i, HASHNODE *hashtable[]){
+}
+//
+// NODE *exec_if(){
+//
+// }
+
+union hash var(char *token) {
+
+  union hash data;
+  float f;
+
+  if ((strstr(token,".")!=NULL || strstr(token,",")!=NULL) && (f = atof(token)) != 0.0) {
+    data.fvalue = f;
+    return data;
+  }
+
+  else {
+    data.ivalue = atoi(token);
+  }
+
+  return data;
 
 }

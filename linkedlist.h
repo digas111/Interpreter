@@ -14,8 +14,9 @@ typedef struct node{
 extern NODE *lista_instr;
 
 NODE *new_node(Instr instr);
-void add_last(Instr i);
+NODE *add_last(NODE *lista_instr,Instr i);
 void print_llist();
+NODE *last(NODE *lista_instr);
 int length();
 
 #endif

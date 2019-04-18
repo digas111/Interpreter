@@ -1,10 +1,24 @@
 #ifndef INSTR_H
 #define INSTR_H
 
+//________________________________________
+
 #define DEBUG 1
 
-typedef enum {EMPTY, INT_VAR, INT_CONST, FLOAT_VAR, FLOAT_CONST, LABEL} ElemKind;
+//________________________________________
 
+#define ELEMKIND(P)((P) . kind)
+#define ELEMNAME(P)((P) . contents.name)
+#define ELEMINT(P)((P) . contents.intval)
+#define ELEMFLOAT(P)((P) . contents.fvalue)
+
+#define INSTROP(P)((P) . op)
+#define INSTREELEM1(P)((P) . elem1)
+#define INSTREELEM2(P)((P) . elem2)
+#define INSTREELEM3(P)((P) . elem3)
+
+
+typedef enum {EMPTY, INT_VAR, INT_CONST, FLOAT_VAR, FLOAT_CONST, LABEL} ElemKind;
 typedef enum {READ, PRINT, IF, GOTO, LABEL_I, QUIT, ADD, SUB, DIV, MUL, ATRIB, ERROR} OpKind;
 
 
