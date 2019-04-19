@@ -162,33 +162,21 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
       default:
       break;
     }
+    lista_instr = NXT(lista_instr);
   }
 }
-
-char* get_var() {
-  int i=0;
-  char c;
-  char *token;
-
-  for (i=0; (c = getc(stdin)) != "\n"; i++) {
-    token[i] = c;
-  }
-
-  token = string_add_last(token,&i,'\0');
-
-  return token;
-
-}
-
 
 void exec_read(Instr i, HASHNODE *hashtable[]) {
-  char *token = get_var();
+
+  char *token;
+
+  scanf("%s", token);
 
   save(hashtable,INSTREELEM1(i),var(token));
 
 }
 
-void exec_print(Instr i, HASHNODE *hashtable[]){
+void exec_print(Instr i, HASHNODE *hashtable[]) {
 }
 //
 // NODE *exec_if(){

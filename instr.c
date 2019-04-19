@@ -141,7 +141,7 @@ Elem is_number(char *token){
 }
 
 void print_instr(Instr i){
-  printf("Instruction: %d\n", i.op);
+  printf("Instruction: %d ", i.op);
   // printf("EL1\n");
   // printf("pos print_instr name: !%s!\n", i.elem1.contents.name);
   print_elem(i.elem1);
