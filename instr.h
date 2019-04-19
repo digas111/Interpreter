@@ -34,7 +34,7 @@
 #define INSTREELEM3FLOAT(P)((P) . elem3.contents.fvalue)
 
 
-typedef enum {EMPTY, INT_VAR, INT_CONST, FLOAT_VAR, FLOAT_CONST, LABEL} ElemKind;
+typedef enum {EMPTY, INT_VAR, INT_CONST, FLOAT_VAR, FLOAT_CONST, LABEL,VAR} ElemKind;
 typedef enum {READ, PRINT, IF, GOTO, LABEL_I, QUIT, ADD, SUB, DIV, MUL, ATRIB, ERROR} OpKind;
 
 

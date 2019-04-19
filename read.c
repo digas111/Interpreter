@@ -138,7 +138,10 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
         }
         break;
       case 3: //GOTO
-        exec_goto(INSTR(lista_instr), hashtable);
+        p = exec_goto(INSTR(lista_instr), hashtable);
+        if (p!=NULL) {
+          lista_instr = p;
+        }
         break;
       case 4: //LABEL_I
         //exec_label(INSTR(lista_instr), hashtable);
@@ -146,16 +149,10 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
       case 5: //QUIT
         return;
       case 6: //ADD
-        //exec_conta(INSTR(lista_instr), hashtable);
-        break;
       case 7: //SUB
-        //exec_conta(INSTR(lista_instr), hashtable);
-        break;
       case 8: //DIV
-        //exec_conta(INSTR(lista_instr), hashtable);
-        break;
       case 9: //MUL
-        //exec_conta(INSTR(lista_instr), hashtable);
+        exec_add(INSTR(lista_instr), hashtable);
         break;
       case 10: //ATRIB
         //exec_conta(INSTR(lista_instr), hashtable);
@@ -240,14 +237,74 @@ NODE *exec_if(Instr i, HASHNODE *hashtable[]) {
 
 }
 
+NODE *exec_goto(Instr i, HASHNODE *hashtable[]) {
 
-NODE *exec_goto(INSTR(lista_instr), hashtable) {
+  HASHNODE *l = get(hashtable,INSTREELEM1(i));
 
-  
-
-
+  return LABEL(l);
 
 }
+
+
+// void exec_conta(Instr i, hashtable) {
+//
+//   switch (INSTROP(i)) {
+//     case ADD:
+//     break;
+//     case SUB:
+//     break;
+//     case DIV:
+//     break;
+//     case MUL:
+//     break;
+//   }
+//
+//
+// }
+
+void exec_add(Instr i, HASHNODE *hashtable[]) {
+
+  printf("boas\n");
+
+  HASHNODE *a = get(hashtable,INSTREELEM2(i));
+  HASHNODE *b = get(hashtable,INSTREELEM3(i));
+
+  printf("boas1\n");
+
+  union hash data;
+
+  printf("%d\n", KIND(a));
+  
+
+  printf("boas2\n");
+
+
+  if (KIND(a) == FLOAT_VAR) {
+    printf("kind a float\n");
+
+    if (KIND(b) == FLOAT_VAR) {
+      data.fvalue = FVALUE(a) + FVALUE(b);
+    }
+    else {
+      data.fvalue = FVALUE(a) + IVALUE(b);
+    }
+
+  }
+
+  else {
+    printf("kind a int\n");
+    if (KIND(b) == FLOAT_VAR) {
+      data.fvalue = IVALUE(a) + FVALUE(b);
+    }
+    else {
+      data.ivalue = IVALUE(a) + IVALUE(b);
+    }
+  }
+
+  save(hashtable,INSTREELEM1(i),data);
+
+}
+
 
 
 

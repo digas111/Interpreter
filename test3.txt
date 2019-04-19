@@ -1,1 +1,3 @@
+label L1;
 escrever(40);
+goto L1;

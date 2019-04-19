@@ -16,6 +16,8 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]);
 void exec_read(Instr i, HASHNODE *hastable[]);
 void exec_print(Instr i, HASHNODE *hashtable[]);
 NODE *exec_if(Instr i, HASHNODE *hashnode[]);
+NODE *exec_goto(Instr i, HASHNODE *hashtable[]);
+void exec_add(Instr i, HASHNODE *hashtable[]);
 union hash var(char *token) ;
 
 //----------------------------------------
