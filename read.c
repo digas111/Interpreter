@@ -168,9 +168,9 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
 char* get_var() {
   int i=0;
   char c;
-  char *token;
+  char *token = NULL;
 
-  for (i=0; (c = getc(stdin)) != "\n"; i++) {
+  for (i=0; (c = getc(stdin)) != '\n'; i++) {
     token[i] = c;
   }
 
