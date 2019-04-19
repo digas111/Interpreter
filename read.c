@@ -138,7 +138,7 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
         }
         break;
       case 3: //GOTO
-        //exec_goto(INSTR(lista_instr), hashtable);
+        exec_goto(INSTR(lista_instr), hashtable);
         break;
       case 4: //LABEL_I
         //exec_label(INSTR(lista_instr), hashtable);
@@ -239,6 +239,17 @@ NODE *exec_if(Instr i, HASHNODE *hashtable[]) {
   return LABEL(l);
 
 }
+
+
+NODE *exec_goto(INSTR(lista_instr), hashtable) {
+
+  
+
+
+
+}
+
+
 
 union hash var(char *token) {
 

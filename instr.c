@@ -9,7 +9,7 @@ Instr new_instr(OpKind k, Elem e1, Elem e2, Elem e3){
   Instr i;
   i.op = k;
   i.elem1 = e1;
-  printf("new_instr - n: %s\n", i.elem1.contents.name);
+  //printf("new_instr - n: %s\n", i.elem1.contents.name);
   i.elem2 = e2;
   i.elem3 = e3;
   return i;
@@ -65,7 +65,7 @@ Instr instrfy(char *linha) {
     case 1: //if _ goto _
       return(new_instr_if(str));
     case 2: //escrever(_);
-      return(new_instr_RWL(str, PRINT, "(", ")"));
+      return(new_instr_W(str, PRINT, "(", ")"));
     case 3: //goto _
       return(new_instr_RWL(str, GOTO, LABEL, " ", "\0"));
     case 4: //label
@@ -100,6 +100,11 @@ Instr new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char de
     return (new_instr(opk, is_number(token), new_elem(EMPTY,NULL,0,0),    new_elem(EMPTY,NULL,0,0)));
   }
 }
+
+Instr new_instr_W(str, PRINT, "(", ")"){
+
+}
+
 
 Instr new_instr_if(char str[]){
   char* token, *token2;
