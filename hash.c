@@ -20,9 +20,11 @@ HASHNODE *setdata(HASHNODE *l, union hash data) {
   switch (KIND(l)) {
     case INT_VAR:
     IVALUE(l) = data.ivalue;
+    printf("IVALUE: %d\n", data.ivalue);
     break;
     case FLOAT_VAR:
     FVALUE(l) = data.fvalue;
+    printf("FVALUE: %f\n", data.fvalue);
     break;
     case LABEL:
     LABEL(l) = data.label;
@@ -71,6 +73,28 @@ HASHNODE *save(HASHNODE *hashtable[], Elem e, union hash data) {
   return *hashtable;
 
 }
+
+HASHNODE *get(HASHNODE *hashtable[], Elem e) {
+
+  unsigned int i = hash(ELEMNAME(e));
+
+  HASHNODE *l = hashtable[i];
+
+  while (l != NULL) {
+
+    if (strcmp(ELEMNAME(e), NAME(l))==0 && ELEMKIND(e)==KIND(l)) {
+      return l;
+    }
+
+    l = NEXT(l);
+
+  }
+
+  return NULL;
+}
+
+
+
 
 void print_hash(HASHNODE *hashtable[]) {
 

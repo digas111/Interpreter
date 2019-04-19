@@ -65,7 +65,7 @@ Instr instrfy(char *linha) {
     case 1: //if _ goto _
       return(new_instr_if(str));
     case 2: //escrever(_);
-      return(new_instr_RWL(str, PRINT, INT_VAR, "(", ")"));
+      return(new_instr_RWL(str, PRINT, "(", ")"));
     case 3: //goto _
       return(new_instr_RWL(str, GOTO, LABEL, " ", "\0"));
     case 4: //label
@@ -93,7 +93,12 @@ Instr new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char de
   strtok(str, delim1);
   token = strtok(NULL, delim2);
   printf("token: %s\n",token);
-  return (new_instr(opk, new_elem(elk, token, 0, 0), new_elem(EMPTY,NULL,0,0), new_elem(EMPTY,NULL,0,0)));
+  if(opk != PRINT){
+    return (new_instr(opk, new_elem(elk, token, 0, 0), new_elem(EMPTY,NULL,0,0),    new_elem(EMPTY,NULL,0,0)));
+  }
+  else{
+    return (new_instr(opk, is_number(token), new_elem(EMPTY,NULL,0,0),    new_elem(EMPTY,NULL,0,0)));
+  }
 }
 
 Instr new_instr_if(char str[]){
@@ -131,6 +136,7 @@ Elem is_number(char *token){
   }
 
   else if((v=atoi(token)) != 0 || strcmp(token, "0") == 0) {
+    printf("entrei no atoi do is_number\n");
     return(new_elem(INT_CONST, NULL, v, 0));
   }
 

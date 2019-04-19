@@ -3,8 +3,6 @@
 #include<string.h>
 #include "read.h"
 
-
-
 char* string_add_last(char string[], int *size, char c) {
 
   int n = *size;
@@ -87,11 +85,6 @@ NODE *file_to_llist(char file_name[], NODE *lista_instr, HASHNODE *hashtable[]) 
 
         lista_instr = process_line(line, lista_instr, hashtable);
 
-        //Instr new = instrfy(line);
-
-        //void process_instr(new);
-
-
 
       }
 
@@ -104,10 +97,10 @@ NODE *file_to_llist(char file_name[], NODE *lista_instr, HASHNODE *hashtable[]) 
 }
 
 NODE *process_line(char *line,NODE *lista_instr, HASHNODE *hashtable[]) {
-
+  printf("INICIO process_line\n");
   Instr new_instr = instrfy(line);
-
-  lista_instr = add_last(lista_instr,instrfy(line));
+  printf("depois do instrfy\n" );
+  lista_instr = add_last(lista_instr,new_instr);
 
   if (INSTROP(new_instr) == LABEL_I) {
 
@@ -118,13 +111,15 @@ NODE *process_line(char *line,NODE *lista_instr, HASHNODE *hashtable[]) {
 
   }
 
-
   return lista_instr;
 
 }
 
 
 void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
+
+  NODE *p;
+
   while(lista_instr != NULL){
     switch(INSTROP(INSTR(lista_instr))){
       case 0: //READ
@@ -134,7 +129,13 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
         exec_print(INSTR(lista_instr), hashtable);
         break;
       case 2: //IF
-        //exec_if(INSTR(lista_instr), hashtable);
+        p = exec_if(INSTR(lista_instr), hashtable);
+        printf("pos exec\n");
+        if (p != NULL) {
+          printf("if p\n");
+          lista_instr = p;
+          printf("change\n");
+        }
         break;
       case 3: //GOTO
         //exec_goto(INSTR(lista_instr), hashtable);
@@ -163,12 +164,13 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
       break;
     }
     lista_instr = NXT(lista_instr);
+    printf("next\n");
   }
 }
 
 void exec_read(Instr i, HASHNODE *hashtable[]) {
 
-  char *token;
+  char token[VARSIZE];
 
   scanf("%s", token);
 
@@ -177,11 +179,66 @@ void exec_read(Instr i, HASHNODE *hashtable[]) {
 }
 
 void exec_print(Instr i, HASHNODE *hashtable[]) {
+
+  printf("INICIIO exec_print\n" );
+
+  if (INSTREELEM1KIND(i) == INT_CONST) {
+    printf("const\n");
+
+    printf("%d\n", INSTREELEM1INT(i));
+
+  }
+
+  else if (INSTREELEM1KIND(i) == FLOAT_CONST) {
+
+    printf("%f\n", INSTREELEM1FLOAT(i));
+
+  }
+
+  else {
+
+    HASHNODE *h =  get(hashtable,INSTREELEM1(i));
+
+    if (INSTREELEM1KIND(i) == INT_VAR) {
+
+      printf("%d\n", IVALUE(h));
+
+    }
+
+    else if (INSTREELEM1KIND(i) == FLOAT_VAR) {
+
+      printf("%f\n", FVALUE(h));
+
+    }
+
+  }
+
 }
-//
-// NODE *exec_if(){
-//
-// }
+
+NODE *exec_if(Instr i, HASHNODE *hashtable[]) {
+
+  printf("execif\n");
+
+  HASHNODE *h = get(hashtable,INSTREELEM1(i));
+  HASHNODE *l = get(hashtable,INSTREELEM2(i));
+
+  printf("hashnode\n");
+
+  if (INSTREELEM1KIND(i) == INT_VAR && !IVALUE(h)) {
+    printf("here\n");
+    return NULL;
+  }
+
+  else if (INSTREELEM1KIND(i) == FLOAT_VAR && !FVALUE(h)) {
+    printf("else\n");
+    return NULL;
+  }
+
+  printf("pos if\n");
+
+  return LABEL(l);
+
+}
 
 union hash var(char *token) {
 

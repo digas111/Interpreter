@@ -45,6 +45,7 @@ unsigned int hash(char *str);
 HASHNODE *setdata(HASHNODE *l, union hash data);
 HASHNODE *new_hashnode(Elem e, union hash data, HASHNODE *next);
 HASHNODE *save(HASHNODE *hashtable[], Elem e, union hash data);
+HASHNODE *get(HASHNODE *hashtable[], Elem e);
 void print_hash(HASHNODE *hashtable[]);
 void print_hashnode(HASHNODE *l);
 

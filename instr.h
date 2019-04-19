@@ -17,6 +17,22 @@
 #define INSTREELEM2(P)((P) . elem2)
 #define INSTREELEM3(P)((P) . elem3)
 
+#define INSTREELEM1KIND(P)((P) . elem1.kind)
+#define INSTREELEM2KIND(P)((P) . elem2.kind)
+#define INSTREELEM3KIND(P)((P) . elem3.kind)
+
+#define INSTREELEM1NAME(P)((P) . elem1.contents.name)
+#define INSTREELEM2NAME(P)((P) . elem2.contents.name)
+#define INSTREELEM3NAME(P)((P) . elem3.contents.name
+
+#define INSTREELEM1INT(P)((P) . elem1.contents.intval)
+#define INSTREELEM2INT(P)((P) . elem2.contents.intval)
+#define INSTREELEM3INT(P)((P) . elem3.contents.intval)
+
+#define INSTREELEM1FLOAT(P)((P) . elem1.contents.fvalue)
+#define INSTREELEM2FLOAT(P)((P) . elem2.contents.fvalue)
+#define INSTREELEM3FLOAT(P)((P) . elem3.contents.fvalue)
+
 
 typedef enum {EMPTY, INT_VAR, INT_CONST, FLOAT_VAR, FLOAT_CONST, LABEL} ElemKind;
 typedef enum {READ, PRINT, IF, GOTO, LABEL_I, QUIT, ADD, SUB, DIV, MUL, ATRIB, ERROR} OpKind;
