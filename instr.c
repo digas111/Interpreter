@@ -9,7 +9,6 @@ Instr new_instr(OpKind k, Elem e1, Elem e2, Elem e3){
   Instr i;
   i.op = k;
   i.elem1 = e1;
-  printf("new_instr - n: %s\n", i.elem1.contents.name);
   i.elem2 = e2;
   i.elem3 = e3;
   return i;
@@ -43,6 +42,8 @@ Elem new_elem(ElemKind k, char *n, int v, float f) {
       e.contents.fvalue = f;
       return e;
       break;
+    default:
+      break;
   }
   return e;
 }
@@ -61,11 +62,11 @@ Instr instrfy(char *linha) {
 
   switch(i) {
     case 0: //ler(_);
-      return(new_instr_RWL(str, READ, INT_VAR, "(", ")"));
+      return(new_instr_RWL(str, READ, VAR, "(", ")"));
     case 1: //if _ goto _
       return(new_instr_if(str));
     case 2: //escrever(_);
-      return(new_instr_RWL(str, PRINT, "(", ")"));
+      return(new_instr_RWL(str, PRINT, VAR, "(", ")"));
     case 3: //goto _
       return(new_instr_RWL(str, GOTO, LABEL, " ", "\0"));
     case 4: //label
@@ -84,8 +85,8 @@ Instr instrfy(char *linha) {
       return(new_instr_atrib(str));
     default:
       printf("ERRO\n");
-    }
-    return new_instr(ERROR,new_elem(EMPTY,NULL,0,0),new_elem(EMPTY,NULL,0,0),new_elem(EMPTY,NULL,0,0));
+  }
+  return new_instr(ERROR,new_elem(EMPTY,NULL,0,0),new_elem(EMPTY,NULL,0,0),new_elem(EMPTY,NULL,0,0));
 }
 
 Instr new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char delim2[]){
@@ -94,10 +95,14 @@ Instr new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char de
   token = strtok(NULL, delim2);
   printf("token: %s\n",token);
   if(opk != PRINT){
-    return (new_instr(opk, new_elem(elk, token, 0, 0), new_elem(EMPTY,NULL,0,0),    new_elem(EMPTY,NULL,0,0)));
+    return (new_instr(opk, new_elem(elk, token, 0, 0), new_elem(EMPTY,NULL,0,0), new_elem(EMPTY,NULL,0,0)));
   }
   else{
-    return (new_instr(opk, is_number(token), new_elem(EMPTY,NULL,0,0),    new_elem(EMPTY,NULL,0,0)));
+    Elem e = is_number(token);
+    printf("passei o is_number\n");
+    Elem e2 = new_elem(EMPTY,NULL,0,0);
+    printf("passei o new_elem(EMPTY)\n");
+    return (new_instr(opk, e, e2, new_elem(EMPTY,NULL,0,0)));
   }
 }
 
@@ -165,6 +170,7 @@ void print_elem(Elem e){
     case INT_VAR:
     case FLOAT_VAR:
     case LABEL:
+    case VAR:
       printf("name: %s\n", e.contents.name);
       break;
     case INT_CONST:
