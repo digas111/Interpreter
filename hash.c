@@ -59,6 +59,7 @@ HASHNODE *save(HASHNODE *hashtable[], Elem e, union hash data) {
   while (l != NULL) {
 
     if (strcmp(ELEMNAME(e),NAME(l))==0) {
+      KIND(l) = ELEMKIND(e);
       l = setdata(l,data);
       return *hashtable;
     }

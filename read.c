@@ -246,64 +246,71 @@ NODE *exec_goto(Instr i, HASHNODE *hashtable[]) {
 }
 
 
-// void exec_conta(Instr i, hashtable) {
-//
-//   switch (INSTROP(i)) {
-//     case ADD:
-//     break;
-//     case SUB:
-//     break;
-//     case DIV:
-//     break;
-//     case MUL:
-//     break;
-//   }
-//
-//
-// }
+
+
+int get_int(Elem e, HASHNODE *hashtable[]) {
+
+  if (ELEMKIND(e)==INT_CONST) {
+    return ELEMINT(e);
+  }
+
+  return IVALUE(get(hashtable,e));
+
+}
+
+float get_float(Elem e, HASHNODE *hashtable[]) {
+
+  if (ELEMKIND(e)==FLOAT_CONST) {
+    return ELEMFLOAT(e);
+  }
+
+  return FVALUE(get(hashtable,e));
+
+}
+
 
 void exec_add(Instr i, HASHNODE *hashtable[]) {
 
-  printf("boas\n");
-
-  HASHNODE *a = get(hashtable,INSTREELEM2(i));
-  HASHNODE *b = get(hashtable,INSTREELEM3(i));
-
-  printf("boas1\n");
-
   union hash data;
 
-  printf("%d\n", KIND(a));
-  
-
-  printf("boas2\n");
-
-
-  if (KIND(a) == FLOAT_VAR) {
-    printf("kind a float\n");
-
-    if (KIND(b) == FLOAT_VAR) {
-      data.fvalue = FVALUE(a) + FVALUE(b);
-    }
-    else {
-      data.fvalue = FVALUE(a) + IVALUE(b);
-    }
-
+  if (ISINTELEM2(i) && ISINTELEM3(i)) {
+    int a = get_int(INSTREELEM2(i),hashtable);
+    int b = get_int(INSTREELEM3(i),hashtable);
+    data.ivalue = a+b;
+    set_kind(INSTREELEM1(i),INT_VAR);
   }
 
   else {
-    printf("kind a int\n");
-    if (KIND(b) == FLOAT_VAR) {
-      data.fvalue = IVALUE(a) + FVALUE(b);
+
+    int ia = 0;
+    int ib = 0;
+    float fa = 0;
+    float fb = 0; 
+
+    if (ISFLOATELEM2(i)) {
+      fa = get_float(INSTREELEM2(i),hashtable);
     }
     else {
-      data.ivalue = IVALUE(a) + IVALUE(b);
+      ia = get_int(INSTREELEM2(i),hashtable);
     }
+
+    if (ISFLOATELEM3(i)) {
+      fb = get_float(INSTREELEM3(i),hashtable);
+    }
+
+    else {
+      ib = get_int(INSTREELEM3(i),hashtable);
+    }
+
+    data.fvalue = fa + (float)ia + fb + (float)ib;
+    set_kind(INSTREELEM1(i),FLOAT_VAR);
+    
   }
 
   save(hashtable,INSTREELEM1(i),data);
 
 }
+
 
 
 

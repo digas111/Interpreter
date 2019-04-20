@@ -7,6 +7,17 @@
 
 //________________________________________
 
+#define ISINTELEM1(P)((P).elem1.kind == INT_CONST || (P).elem1.kind == INT_VAR)
+#define ISFLOATELEM1(P)((P).elem1.kind == FLOAT_CONST || (P).elem1.kind == FLOAT_VAR)
+#define ISINTELEM2(P)((P).elem2.kind == INT_CONST || (P).elem2.kind == INT_VAR)
+#define ISFLOATELEM2(P)((P).elem2.kind == FLOAT_CONST || (P).elem2.kind == FLOAT_VAR)
+#define ISINTELEM3(P)((P).elem3.kind == INT_CONST || (P).elem3.kind == INT_VAR)
+#define ISFLOATELEM3(P)((P).elem3.kind == FLOAT_CONST || (P).elem3.kind == FLOAT_VAR)
+
+
+#define ISINT(P)((P).kind == INT_CONST || (P).kind == INT_VAR)
+#define ISFLOAT(P)((P).kind == FLOAT_CONST || (P).kind == FLOAT_VAR)
+
 #define ELEMKIND(P)((P) . kind)
 #define ELEMNAME(P)((P) . contents.name)
 #define ELEMINT(P)((P) . contents.intval)
@@ -71,5 +82,6 @@ Instr new_instr_atrib(char str[]);
 Elem is_number(char *token);
 void print_instr(Instr i);
 void print_elem(Elem e);
+Elem set_kind(Elem e, ElemKind kind);
 
 #endif

@@ -14,6 +14,13 @@ Instr new_instr(OpKind k, Elem e1, Elem e2, Elem e3){
   return i;
 }
 
+Elem set_kind(Elem e, ElemKind kind) {
+
+  ELEMKIND(e)=kind;
+  return e;
+  
+}
+
 Elem new_elem_empty() {
   Elem e;
   e.kind = EMPTY;
