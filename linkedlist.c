@@ -55,7 +55,7 @@ void print_llist(NODE *lista_instr) {
     curr = NXT(curr);
   }
 
-  printf("____________________________\n");
+  printf("_____END OF print_llist________\n");
 
 }
 

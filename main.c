@@ -26,11 +26,12 @@ int main(int argc, char **argv) {
 
     print_llist(lista_instr);
 
-    printf("__________EXEC_______\n");
+
+    printf("_________INICIO DO exec_list_______\n");
 
     exec_list(lista_instr, hashtable);
 
-    printf("_____________________\n");
+    printf("___________FIM DO exec_list_________\n");
 
     print_hash(hashtable);
 

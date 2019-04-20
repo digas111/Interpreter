@@ -123,12 +123,15 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
   while(lista_instr != NULL){
     switch(INSTROP(INSTR(lista_instr))){
       case 0: //READ
+        printf("entrei no exec_list READ\n");
         exec_read(INSTR(lista_instr), hashtable);
         break;
       case 1: //PRINT
+        printf("entrei no exec_list PRINT\n");
         exec_print(INSTR(lista_instr), hashtable);
         break;
       case 2: //IF
+        printf("entrei no exec_list IF\n");
         p = exec_if(INSTR(lista_instr), hashtable);
         printf("pos exec\n");
         if (p != NULL) {
@@ -138,23 +141,35 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
         }
         break;
       case 3: //GOTO
+        printf("entrei no exec_list GOTO\n");
         p = exec_goto(INSTR(lista_instr), hashtable);
         if (p!=NULL) {
           lista_instr = p;
         }
         break;
       case 4: //LABEL_I
+        printf("entrei no exec_list LABEL\n");
         //exec_label(INSTR(lista_instr), hashtable);
         break;
       case 5: //QUIT
+        printf("entrei no exec_list QUIT\n");
         return;
       case 6: //ADD
+        printf("entrei no exec_list ADD\n");
+        exec_add(INSTR(lista_instr), hashtable);
+        break;
       case 7: //SUB
+        printf("entrei no exec_list SUB\n");
+        break;
       case 8: //DIV
+        printf("entrei no exec_list DIV\n");
+        break;
       case 9: //MUL
+        printf("entrei no exec_list MUL\n");
         exec_add(INSTR(lista_instr), hashtable);
         break;
       case 10: //ATRIB
+        printf("entrei no exec_list ATRIB\n");
         //exec_conta(INSTR(lista_instr), hashtable);
         break;
       default:
@@ -272,14 +287,13 @@ float get_float(Elem e, HASHNODE *hashtable[]) {
 void exec_add(Instr i, HASHNODE *hashtable[]) {
 
   union hash data;
-
   if (ISINTELEM2(i) && ISINTELEM3(i)) {
     int a = get_int(INSTREELEM2(i),hashtable);
     int b = get_int(INSTREELEM3(i),hashtable);
     data.ivalue = a+b;
     set_kind(INSTREELEM1(i),INT_VAR);
+  
   }
-
   else {
 
     int ia = 0;
@@ -307,7 +321,9 @@ void exec_add(Instr i, HASHNODE *hashtable[]) {
     
   }
 
+  print_hash(hashtable);
   save(hashtable,INSTREELEM1(i),data);
+  printf("BOASSSSS\n");
 
 }
 

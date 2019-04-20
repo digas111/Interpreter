@@ -1,5 +1,5 @@
 compile:
-	gcc -Wall *.c
+	clear && gcc -Wall *.c
 
 clean:
 	rm *.o

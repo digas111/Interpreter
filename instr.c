@@ -139,15 +139,17 @@ Elem is_number(char *token){
   float f;
 
   if ((strstr(token,".")!=NULL || strstr(token,",")!=NULL) && (f = atof(token)) != 0.0) {
+      printf("entrei no atoF do is_number com string: |%s|\n", token);
       return(new_elem(FLOAT_CONST, NULL, 0,f));
   }
 
   else if((v=atoi(token)) != 0 || strcmp(token, "0") == 0) {
-    printf("entrei no atoi do is_number\n");
+    printf("entrei no atoi do is_number com string: |%s|\n", token);
     return(new_elem(INT_CONST, NULL, v, 0));
   }
 
   else {
+    printf("nao entrei no atoi nem no atoF do is_number com string: |%s|\n", token);
     return(new_elem(INT_VAR, token, 0, 0));
   }
 
