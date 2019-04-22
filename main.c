@@ -8,12 +8,9 @@
 #define MDEBUG 1
 
 int main(int argc, char **argv) {
-  int i;
   NODE *lista_instr = NULL;
   HASHNODE *hashtable[NHASH];
-  for(i = 0; i < NHASH; i++){
-    hashtable[i] = NULL;
-  }
+
 
 
   for (int i = 0; i < NHASH; i++) {
