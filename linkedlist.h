@@ -12,10 +12,9 @@ typedef struct node {
 } NODE;
 
 
-NODE *new_node(Instr instr);
-NODE *add_last(NODE *lista_instr, Instr i);
-void print_llist();
-NODE *last(NODE *lista_instr);
-int length();
+NODE *new_node(Instr instr);  //cria um nó com uma instrucao
+NODE *add_last(NODE *lista_instr, Instr i); //adiciona ao fim da lista um no com uma instrucao
+void print_llist(); //imprime o conteudo da lista
+NODE *last(NODE *lista_instr); //retorna o ultimo elemento da lista
 
 #endif
