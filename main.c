@@ -1,43 +1,25 @@
 #include <stdio.h>
-#include "read.h"
 #include "hash.h"
-#include "linkedlist.h"
 #include "instr.h"
+#include "linkedlist.h"
+#include "read.h"
+#include "exec.h"
 
 #define MDEBUG 1
 
 int main(int argc, char **argv) {
-
   NODE *lista_instr = NULL;
   HASHNODE *hashtable[NHASH];
+
+  for (int i = 0; i < NHASH; i++) {
+    hashtable[i] = NULL;
+  }
 
   char *file = argv[1];
 
   lista_instr = file_to_llist(file, lista_instr, hashtable);
 
-  if (MDEBUG) {
-
-    // union hash data;
-    // data.ivalue = 2;
-    //
-    // save(hashtable,INT,"var",data);
-    // data.fvalue = 2.2;
-    // save(hashtable,FLOAT,"var2",data);
-
-    print_llist(lista_instr);
-
-
-    printf("_________INICIO DO exec_list_______\n");
-
-    exec_list(lista_instr, hashtable);
-
-    printf("___________FIM DO exec_list_________\n");
-
-    print_hash(hashtable);
-
-
-  }
+  exec_list(lista_instr, hashtable);
 
   return 0;
-
 }

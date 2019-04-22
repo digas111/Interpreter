@@ -1,7 +1,7 @@
 #ifndef HASH_H
 #define HASH_H
-#include "linkedlist.h"
 #include "instr.h"
+#include "linkedlist.h"
 
 //________________________________________
 
@@ -9,12 +9,12 @@
 
 //________________________________________
 
-#define NAME(P)((P) -> name)
-#define NEXT(P)((P) -> next)
-#define IVALUE(P)((P) -> data.ivalue)
-#define FVALUE(P)((P) -> data.fvalue)
-#define LABEL(P)((P) -> data.label)
-#define KIND(P)((P) -> kind)
+#define NAME(P) ((P)->name)
+#define NEXT(P) ((P)->next)
+#define IVALUE(P) ((P)->data.ivalue)
+#define FVALUE(P) ((P)->data.fvalue)
+#define LABEL(P) ((P)->data.label)
+#define KIND(P) ((P)->kind)
 
 // typedef enum {INT,FLOAT,LABELPOINTER}Elkind;
 
@@ -29,8 +29,7 @@ typedef struct hashnode {
   char *name;
   struct hashnode *next;
   union hash data;
-}HASHNODE;
-
+} HASHNODE;
 
 //________________________________________
 
@@ -41,14 +40,12 @@ typedef struct hashnode {
 
 unsigned int hash(char *str);
 
-
 HASHNODE *setdata(HASHNODE *l, union hash data);
 HASHNODE *new_hashnode(Elem e, union hash data, HASHNODE *next);
 HASHNODE *save(HASHNODE *hashtable[], Elem e, union hash data);
 HASHNODE *get(HASHNODE *hashtable[], Elem e);
 void print_hash(HASHNODE *hashtable[]);
 void print_hashnode(HASHNODE *l);
-
 
 //----------------------------------------
 

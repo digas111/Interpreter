@@ -3,18 +3,18 @@
 
 #include "instr.h"
 
-#define INSTR(P)((P)->instr)
-#define NXT(P)((P)->nxt)
+#define INSTR(P) ((P)->instr)
+#define NXT(P) ((P)->nxt)
 
-typedef struct node{
-    Instr instr;
-    struct node *nxt;
-}NODE;
+typedef struct node {
+  Instr instr;
+  struct node *nxt;
+} NODE;
 
-extern NODE *lista_instr;
+//xtern NODE *lista_instr;
 
 NODE *new_node(Instr instr);
-NODE *add_last(NODE *lista_instr,Instr i);
+NODE *add_last(NODE *lista_instr, Instr i);
 void print_llist();
 NODE *last(NODE *lista_instr);
 int length();
