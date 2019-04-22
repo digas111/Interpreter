@@ -45,7 +45,3 @@ void print_llist(NODE *lista_instr) {
 
 }
 
-int length(NODE *lista_instr) {
-  if (lista_instr == NULL) return 0;
-  return 1 + length(NXT(lista_instr));
-}
