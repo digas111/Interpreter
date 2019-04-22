@@ -3,7 +3,7 @@
 #include <string.h>
 #include "instr.h"
 
-char *keywords[SIZEKEYW] =  {".ler(", ".if", ".escrever(", ".goto", ".label", ".quit", "+", "-", "*", "/"};
+char *keywords[SIZEKEYW] =  {"ler(", "if", "escrever(", "goto", "label", "quit", "+", "-", "*", "/"};
 
 Instr new_instr(OpKind k, Elem e1, Elem e2, Elem e3){
   Instr i;
@@ -12,13 +12,6 @@ Instr new_instr(OpKind k, Elem e1, Elem e2, Elem e3){
   i.elem2 = e2;
   i.elem3 = e3;
   return i;
-}
-
-Elem set_kind(Elem e, ElemKind kind) {
-
-  ELEMKIND(e)=kind;
-  return e;
-  
 }
 
 Elem new_elem_empty() {
@@ -98,7 +91,6 @@ Instr new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char de
   char *token;
   strtok(str, delim1);
   token = strtok(NULL, delim2);
-  printf("token: %s\n",token);
   if(opk != PRINT){
     return (new_instr(opk, new_elem(elk, token, 0, 0), new_elem(EMPTY,NULL,0,0),    new_elem(EMPTY,NULL,0,0)));
   }
@@ -114,41 +106,41 @@ Instr new_instr_if(char str[]){
   token = strtok(NULL, " goto "); // token = (condition)
   strtok(NULL," ");
   token2 = strtok(NULL, "\0"); // token = LX
-  return (new_instr(IF, new_elem(INT_VAR, token, 0, 0), new_elem(LABEL, token2, 0, 0), new_elem(EMPTY,NULL,0,0)));
+  return (new_instr(IF, new_elem(VAR, token, 0, 0), new_elem(LABEL, token2, 0, 0), new_elem(EMPTY,NULL,0,0)));
 }
 
 Instr new_instr_op(char str[], char op[], OpKind k){
   char *token, *token2, *token3;
-  token = strtok(str, ".");
-  token = strtok(token, "=");
+  token = strtok(str, "=");
   token2 = strtok(NULL, op);
   token3 = strtok(NULL, "\0");
-  return(new_instr(k, new_elem(INT_VAR, token, 0, 0), is_number(token2), is_number(token3)));
+  return(new_instr(k, new_elem(VAR, token, 0, 0), is_number(token2), is_number(token3)));
 }
 
 Instr new_instr_atrib(char str[]){
   char *token, *token2;
-  token = strtok(str, ".");
-  token = strtok(token, "=");
+
+  token = strtok(str, "=");
   token2 = strtok(NULL, "\0");
-  return(new_instr(ATRIB, new_elem(INT_VAR, token, 0, 0), is_number(token2),new_elem(EMPTY,NULL,0,0)));
+  return(new_instr(ATRIB, new_elem(VAR, token, 0, 0), is_number(token2),new_elem(EMPTY,NULL,0,0)));
 }
 
 Elem is_number(char *token){
   int v;
   float f;
 
+    printf("token:%s\n",token);
   if ((strstr(token,".")!=NULL || strstr(token,",")!=NULL) && (f = atof(token)) != 0.0) {
+    printf("float: %f", f);
       return(new_elem(FLOAT_CONST, NULL, 0,f));
   }
 
   else if((v=atoi(token)) != 0 || strcmp(token, "0") == 0) {
-    printf("entrei no atoi do is_number\n");
     return(new_elem(INT_CONST, NULL, v, 0));
   }
 
   else {
-    return(new_elem(INT_VAR, token, 0, 0));
+    return(new_elem(VAR, token, 0, 0));
   }
 
 }

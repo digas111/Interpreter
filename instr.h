@@ -7,12 +7,14 @@
 
 //________________________________________
 
-#define ISINTELEM1(P)((P).elem1.kind == INT_CONST || (P).elem1.kind == INT_VAR)
-#define ISFLOATELEM1(P)((P).elem1.kind == FLOAT_CONST || (P).elem1.kind == FLOAT_VAR)
-#define ISINTELEM2(P)((P).elem2.kind == INT_CONST || (P).elem2.kind == INT_VAR)
-#define ISFLOATELEM2(P)((P).elem2.kind == FLOAT_CONST || (P).elem2.kind == FLOAT_VAR)
-#define ISINTELEM3(P)((P).elem3.kind == INT_CONST || (P).elem3.kind == INT_VAR)
-#define ISFLOATELEM3(P)((P).elem3.kind == FLOAT_CONST || (P).elem3.kind == FLOAT_VAR)
+#define isIntConstElem1(P)((P).elem1.kind == INT_CONST)
+#define isFloatConstElem1(P)((P).elem1.kind == FLOAT_CONST)
+#define isIntConstElem2(P)((P).elem2.kind == INT_CONST)
+#define isFloatConstElem2(P)((P).elem2.kind == FLOAT_CONST)
+#define isIntConstElem3(P)((P).elem3.kind == INT_CONST)
+#define isFloatConstElem3(P)((P).elem3.kind == FLOAT_CONST)
+
+//________________________
 
 
 #define ISINT(P)((P).kind == INT_CONST || (P).kind == INT_VAR)

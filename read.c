@@ -62,7 +62,7 @@ NODE *file_to_llist(char file_name[], NODE *lista_instr, HASHNODE *hashtable[]) 
         int index = 0;
         line = (char *) malloc(index*sizeof(char));
 
-        line = string_add_last(line,&index,'.');
+        //line = string_add_last(line,&index,'.');
         line = string_add_last(line,&index,c);
 
         while ((c = getc(code)) != ';') {
@@ -70,6 +70,10 @@ NODE *file_to_llist(char file_name[], NODE *lista_instr, HASHNODE *hashtable[]) 
           if (c == '=') {
             flag = 1;
           }
+
+		  if (c == ',') {
+			  c = '.';
+		  }
 
           line = string_add_last(line,&index,c);
 
@@ -87,19 +91,15 @@ NODE *file_to_llist(char file_name[], NODE *lista_instr, HASHNODE *hashtable[]) 
 
 
       }
-
     }
   }
 
   fclose(code);
   return lista_instr;
-
 }
 
 NODE *process_line(char *line,NODE *lista_instr, HASHNODE *hashtable[]) {
-  printf("INICIO process_line\n");
   Instr new_instr = instrfy(line);
-  printf("depois do instrfy\n" );
   lista_instr = add_last(lista_instr,new_instr);
 
   if (INSTROP(new_instr) == LABEL_I) {
@@ -112,7 +112,6 @@ NODE *process_line(char *line,NODE *lista_instr, HASHNODE *hashtable[]) {
   }
 
   return lista_instr;
-
 }
 
 
@@ -130,11 +129,8 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
         break;
       case 2: //IF
         p = exec_if(INSTR(lista_instr), hashtable);
-        printf("pos exec\n");
         if (p != NULL) {
-          printf("if p\n");
           lista_instr = p;
-          printf("change\n");
         }
         break;
       case 3: //GOTO
@@ -144,24 +140,28 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
         }
         break;
       case 4: //LABEL_I
-        //exec_label(INSTR(lista_instr), hashtable);
         break;
       case 5: //QUIT
         return;
       case 6: //ADD
-      case 7: //SUB
-      case 8: //DIV
-      case 9: //MUL
         exec_add(INSTR(lista_instr), hashtable);
-        break;
+      break;
+      case 7: //SUB
+        exec_sub(INSTR(lista_instr), hashtable);
+      break;
+      case 8: //DIV
+        exec_div(INSTR(lista_instr), hashtable);
+      break;
+      case 9: //MUL
+        exec_mul(INSTR(lista_instr), hashtable);
+      break;
       case 10: //ATRIB
-        //exec_conta(INSTR(lista_instr), hashtable);
+        exec_atrib(INSTR(lista_instr), hashtable);
         break;
       default:
       break;
     }
     lista_instr = NXT(lista_instr);
-    printf("next\n");
   }
 }
 
@@ -177,17 +177,12 @@ void exec_read(Instr i, HASHNODE *hashtable[]) {
 
 void exec_print(Instr i, HASHNODE *hashtable[]) {
 
-  printf("INICIIO exec_print\n" );
-
   if (INSTREELEM1KIND(i) == INT_CONST) {
-    printf("const\n");
-
     printf("%d\n", INSTREELEM1INT(i));
 
   }
 
   else if (INSTREELEM1KIND(i) == FLOAT_CONST) {
-
     printf("%f\n", INSTREELEM1FLOAT(i));
 
   }
@@ -196,14 +191,12 @@ void exec_print(Instr i, HASHNODE *hashtable[]) {
 
     HASHNODE *h =  get(hashtable,INSTREELEM1(i));
 
-    if (INSTREELEM1KIND(i) == INT_VAR) {
-
+    if (KIND(h) == INT_VAR) {
       printf("%d\n", IVALUE(h));
 
     }
 
-    else if (INSTREELEM1KIND(i) == FLOAT_VAR) {
-
+    else if (KIND(h) == FLOAT_VAR) {
       printf("%f\n", FVALUE(h));
 
     }
@@ -219,19 +212,13 @@ NODE *exec_if(Instr i, HASHNODE *hashtable[]) {
   HASHNODE *h = get(hashtable,INSTREELEM1(i));
   HASHNODE *l = get(hashtable,INSTREELEM2(i));
 
-  printf("hashnode\n");
-
-  if (INSTREELEM1KIND(i) == INT_VAR && !IVALUE(h)) {
-    printf("here\n");
+  if (KIND(h) == INT_VAR && !IVALUE(h)) {
     return NULL;
   }
 
-  else if (INSTREELEM1KIND(i) == FLOAT_VAR && !FVALUE(h)) {
-    printf("else\n");
+  else if (KIND(h) == FLOAT_VAR && !FVALUE(h)) {
     return NULL;
   }
-
-  printf("pos if\n");
 
   return LABEL(l);
 
@@ -245,6 +232,15 @@ NODE *exec_goto(Instr i, HASHNODE *hashtable[]) {
 
 }
 
+float is_int(float a) {
+  int c = a;
+
+  if (a-c==0) {
+    return 1;
+  }
+  return 0;
+}
+
 
 
 
@@ -254,7 +250,15 @@ int get_int(Elem e, HASHNODE *hashtable[]) {
     return ELEMINT(e);
   }
 
-  return IVALUE(get(hashtable,e));
+  HASHNODE *h = get(hashtable,e);
+
+  if (KIND(h) == INT_VAR) {
+
+    return IVALUE(h);
+
+  }
+
+  return 0;
 
 }
 
@@ -264,47 +268,89 @@ float get_float(Elem e, HASHNODE *hashtable[]) {
     return ELEMFLOAT(e);
   }
 
-  return FVALUE(get(hashtable,e));
+  if (ELEMKIND(e)==INT_CONST) {
+    return 0;
+  }
+
+  HASHNODE *h = get(hashtable,e);
+
+  if (KIND(h) == FLOAT_VAR) {
+
+    return IVALUE(h);
+
+  }
+
+  return 0;
 
 }
+
+
+
+void save_result(Elem e, HASHNODE *hashtable[], float r) {
+
+  union hash data;
+
+  if (is_int(r)) {
+    data.ivalue = (int)r;
+    ELEMKIND(e) = INT_VAR;
+  }
+
+  else {
+    data.fvalue = r;
+    ELEMKIND(e) = FLOAT_VAR;
+  }
+
+  save(hashtable, e, data);
+}
+
+
+
+
 
 
 void exec_add(Instr i, HASHNODE *hashtable[]) {
 
   union hash data;
 
-  if (ISINTELEM2(i) && ISINTELEM3(i)) {
-    int a = get_int(INSTREELEM2(i),hashtable);
-    int b = get_int(INSTREELEM3(i),hashtable);
-    data.ivalue = a+b;
-    set_kind(INSTREELEM1(i),INT_VAR);
+  int ia = get_int(INSTREELEM2(i),hashtable);
+  int ib = get_int(INSTREELEM3(i),hashtable);
+  float fa = get_float(INSTREELEM2(i),hashtable);
+  float fb = get_float(INSTREELEM3(i),hashtable);
+
+  float r = ((float)ia + fa) + ((float)ib + fb);
+
+  if (is_int(r)) {
+    data.ivalue = (int)r;
+    INSTREELEM1KIND(i) = INT_VAR;
   }
 
   else {
+    data.fvalue = r;
+    INSTREELEM1KIND(i) = FLOAT_VAR;
+  }
 
-    int ia = 0;
-    int ib = 0;
-    float fa = 0;
-    float fb = 0; 
+  save(hashtable,INSTREELEM1(i),data);
+}
 
-    if (ISFLOATELEM2(i)) {
-      fa = get_float(INSTREELEM2(i),hashtable);
-    }
-    else {
-      ia = get_int(INSTREELEM2(i),hashtable);
-    }
+void exec_sub(Instr i, HASHNODE *hashtable[]) {
 
-    if (ISFLOATELEM3(i)) {
-      fb = get_float(INSTREELEM3(i),hashtable);
-    }
+    union hash data;
 
-    else {
-      ib = get_int(INSTREELEM3(i),hashtable);
-    }
+  int ia = get_int(INSTREELEM2(i),hashtable);
+  int ib = get_int(INSTREELEM3(i),hashtable);
+  float fa = get_float(INSTREELEM2(i),hashtable);
+  float fb = get_float(INSTREELEM3(i),hashtable);
 
-    data.fvalue = fa + (float)ia + fb + (float)ib;
-    set_kind(INSTREELEM1(i),FLOAT_VAR);
-    
+  float r = ((float)ia + fa) - ((float)ib + fb);
+
+  if (is_int(r)) {
+    data.ivalue = (int)r;
+    INSTREELEM1KIND(i) = INT_VAR;
+  }
+
+  else {
+    data.fvalue = r;
+    INSTREELEM1KIND(i) = FLOAT_VAR;
   }
 
   save(hashtable,INSTREELEM1(i),data);
@@ -312,8 +358,72 @@ void exec_add(Instr i, HASHNODE *hashtable[]) {
 }
 
 
+void exec_mul(Instr i, HASHNODE *hashtable[]) {
 
+  union hash data;
 
+  int ia = get_int(INSTREELEM2(i),hashtable);
+  int ib = get_int(INSTREELEM3(i),hashtable);
+  float fa = get_float(INSTREELEM2(i),hashtable);
+  float fb = get_float(INSTREELEM3(i),hashtable);
+
+  float r = ((float)ia + fa) * ((float)ib + fb);
+
+  if (is_int(r)) {
+    data.ivalue = (int)r;
+    INSTREELEM1KIND(i) = INT_VAR;
+  }
+
+  else {
+    data.fvalue = r;
+    INSTREELEM1KIND(i) = FLOAT_VAR;
+  }
+
+  save(hashtable,INSTREELEM1(i),data);
+
+}
+
+void exec_div(Instr i, HASHNODE *hashtable[]) {
+
+  union hash data;
+
+  int ia = get_int(INSTREELEM2(i),hashtable);
+  int ib = get_int(INSTREELEM3(i),hashtable);
+  float fa = get_float(INSTREELEM2(i),hashtable);
+  float fb = get_float(INSTREELEM3(i),hashtable);
+
+  float r = ((float)ia + fa) / ((float)ib + fb);
+
+  if (is_int(r)) {
+    data.ivalue = (int)r;
+    INSTREELEM1KIND(i) = INT_VAR;
+  }
+
+  else {
+    data.fvalue = r;
+    INSTREELEM1KIND(i) = FLOAT_VAR;
+  }
+
+  save(hashtable,INSTREELEM1(i),data);
+
+}
+
+void exec_atrib(Instr i, HASHNODE *hashtable[]) {
+
+  union hash data;
+
+  if (INSTREELEM2KIND(i)==INT_CONST) {
+    data.ivalue = INSTREELEM2INT(i);
+    INSTREELEM1KIND(i) = INT_VAR;
+  }
+
+  else {
+    data.fvalue = INSTREELEM2FLOAT(i);
+    INSTREELEM1KIND(i) = FLOAT_VAR;
+  }
+
+  save(hashtable,INSTREELEM1(i),data);
+}
 
 union hash var(char *token) {
 

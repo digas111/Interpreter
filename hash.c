@@ -15,16 +15,15 @@ unsigned int hash(char *str) {
   return res%NHASH;
 }
 
+
 HASHNODE *setdata(HASHNODE *l, union hash data) {
 
   switch (KIND(l)) {
     case INT_VAR:
     IVALUE(l) = data.ivalue;
-    printf("IVALUE: %d\n", data.ivalue);
     break;
     case FLOAT_VAR:
     FVALUE(l) = data.fvalue;
-    printf("FVALUE: %f\n", data.fvalue);
     break;
     case LABEL:
     LABEL(l) = data.label;
@@ -83,7 +82,7 @@ HASHNODE *get(HASHNODE *hashtable[], Elem e) {
 
   while (l != NULL) {
 
-    if (strcmp(ELEMNAME(e), NAME(l))==0 && ELEMKIND(e)==KIND(l)) {
+    if (strcmp(ELEMNAME(e), NAME(l))==0) {
       return l;
     }
 

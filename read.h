@@ -18,6 +18,10 @@ void exec_print(Instr i, HASHNODE *hashtable[]);
 NODE *exec_if(Instr i, HASHNODE *hashnode[]);
 NODE *exec_goto(Instr i, HASHNODE *hashtable[]);
 void exec_add(Instr i, HASHNODE *hashtable[]);
+void exec_sub(Instr i, HASHNODE *hashtable[]);
+void exec_mul(Instr i, HASHNODE *hashtable[]);
+void exec_div(Instr i, HASHNODE *hashtable[]);
+void exec_atrib(Instr i, HASHNODE *hashtable[]);
 union hash var(char *token) ;
 
 //----------------------------------------
