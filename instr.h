@@ -76,7 +76,7 @@ typedef struct {
   Elem elem1, elem2, elem3;
 } Instr;
 
-#define SIZEKEYW 10
+#define SIZEKEYW 11
 
 //VARIAVEIS GLOBAIS
 

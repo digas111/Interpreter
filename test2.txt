@@ -1,4 +1,0 @@
-ler(k);
-escrever(k);
-quit;
-ler(p);

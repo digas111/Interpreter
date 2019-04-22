@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *keywords[SIZEKEYW] = {"ler(", "if", "escrever(", "goto", "label", "quit", "+", "-", "*", "/"};
+char *keywords[SIZEKEYW] = {"ler(", "if", "escrever(", "goto", "label", "quit", "=-", "+", "-", "*", "/"};
 
 Instr new_instr(OpKind k, Elem e1, Elem e2, Elem e3) {
   Instr i;
@@ -71,15 +71,17 @@ Instr instrfy(char *linha) {
       return (new_instr_RWL(str, LABEL_I, LABEL, " ", "\0"));
     case 5:  //"-quit"
       return (new_instr(QUIT, new_elem(EMPTY, NULL, 0, 0), new_elem(EMPTY, NULL, 0, 0), new_elem(EMPTY, NULL, 0, 0)));
-    case 6:  // ADD
+    case 6: // negative ATTRIB
+      return (new_instr_atrib(str));
+    case 7:  // ADD
       return (new_instr_op(str, "+", ADD));
-    case 7:  // SUB
+    case 8:  // SUB
       return (new_instr_op(str, "-", SUB));
-    case 8:  // MUL
+    case 9:  // MUL
       return (new_instr_op(str, "*", MUL));
-    case 9:  // DIV
+    case 10:  // DIV
       return (new_instr_op(str, "/", DIV));
-    case 10:  // ATRIB
+    case 11:  // ATRIB
       return (new_instr_atrib(str));
     default:
       printf("ERRO\n");
