@@ -122,18 +122,22 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
   while(lista_instr != NULL){
     switch(INSTROP(INSTR(lista_instr))){
       case 0: //READ
+        printf("entrei no exec_list READ\n");
         exec_read(INSTR(lista_instr), hashtable);
         break;
       case 1: //PRINT
+        printf("entrei no exec_list PRINT\n");
         exec_print(INSTR(lista_instr), hashtable);
         break;
       case 2: //IF
+        printf("entrei no exec_list IF\n");
         p = exec_if(INSTR(lista_instr), hashtable);
         if (p != NULL) {
           lista_instr = p;
         }
         break;
       case 3: //GOTO
+        printf("entrei no exec_list GOTO\n");
         p = exec_goto(INSTR(lista_instr), hashtable);
         if (p!=NULL) {
           lista_instr = p;
@@ -142,6 +146,7 @@ void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
       case 4: //LABEL_I
         break;
       case 5: //QUIT
+        printf("entrei no exec_list QUIT\n");
         return;
       case 6: //ADD
         exec_add(INSTR(lista_instr), hashtable);
@@ -323,7 +328,6 @@ void exec_add(Instr i, HASHNODE *hashtable[]) {
     data.ivalue = (int)r;
     INSTREELEM1KIND(i) = INT_VAR;
   }
-
   else {
     data.fvalue = r;
     INSTREELEM1KIND(i) = FLOAT_VAR;
@@ -379,7 +383,9 @@ void exec_mul(Instr i, HASHNODE *hashtable[]) {
     INSTREELEM1KIND(i) = FLOAT_VAR;
   }
 
+  print_hash(hashtable);
   save(hashtable,INSTREELEM1(i),data);
+  printf("BOASSSSS\n");
 
 }
 
