@@ -33,6 +33,10 @@ segue para a linha que tem como label <label>.
 quit;
 termina o programa.
 
+Sobre a estrutura do código: 
+O programa utiliza uma linked list de instruçoes em que cada instruçao contem um kind para distinguir o tipo de intruçao e 3 elementos cada um com um kind para saber que tipo de elemento se trata. Para lidar com as labels e e variaveis usamos uma tabela de hash que para as lables guarda o apontador para o nó da linked list a que pertence essa label e para as variaveis guarda o respetivo valor.
+
 Notas importantes:
-labels de var's são strings com 25 carateres e não podem começar com números
-as variáveis podem guardar números decimais ou inteiros
+  -labels de var's são strings com 25 carateres e não podem começar com números
+  -as variáveis podem guardar números decimais ou inteiros
+  -para valores negativos deve-se atribuir primeiro a uma variavel 
