@@ -11,8 +11,6 @@ int main(int argc, char **argv) {
   NODE *lista_instr = NULL;
   HASHNODE *hashtable[NHASH];
 
-
-
   for (int i = 0; i < NHASH; i++) {
     hashtable[i] = NULL;
   }

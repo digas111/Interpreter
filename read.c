@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "read.h"
 
 char *string_add_last(char string[], int *size, char c) {

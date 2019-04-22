@@ -11,7 +11,6 @@ typedef struct node {
   struct node *nxt;
 } NODE;
 
-//xtern NODE *lista_instr;
 
 NODE *new_node(Instr instr);
 NODE *add_last(NODE *lista_instr, Instr i);

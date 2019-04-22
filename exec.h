@@ -4,7 +4,6 @@
 #include "hash.h"
 #include "linkedlist.h"
 
-
 //----------------------------------------
 
 void exec_list(NODE *lista_instr, HASHNODE *hashtable[]);
