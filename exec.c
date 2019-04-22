@@ -4,7 +4,6 @@
 
 #include "exec.h"
 
-
 void exec_list(NODE *lista_instr, HASHNODE *hashtable[]) {
   NODE *p;
 
@@ -87,8 +86,6 @@ void exec_print(Instr i, HASHNODE *hashtable[]) {
 }
 
 NODE *exec_if(Instr i, HASHNODE *hashtable[]) {
-  //printf("execif\n");
-
   HASHNODE *h = get(hashtable, INSTREELEM1(i));
   HASHNODE *l = get(hashtable, INSTREELEM2(i));
 

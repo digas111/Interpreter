@@ -57,7 +57,6 @@ HASHNODE *save(HASHNODE *hashtable[], Elem e, union hash data) {
 
     l = NEXT(l);
   }
-  //printf("TOU AQUI\n");
 
   l = new_hashnode(e, data, hashtable[i]);
 

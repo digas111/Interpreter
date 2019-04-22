@@ -10,7 +10,6 @@ NODE *new_node(Instr i) {
 }
 
 NODE *add_last(NODE *lista_instr, Instr i) {
-
   NODE *prev = NULL;
   NODE *curr = lista_instr;
   if (lista_instr == NULL) {
@@ -35,13 +34,10 @@ NODE *last(NODE *lista_instr) {
 }
 
 void print_llist(NODE *lista_instr) {
-
   NODE *curr = lista_instr;
   if (curr == NULL) printf("Lista vazia\n");
   while (curr != NULL) {
     print_instr(curr->instr);
     curr = NXT(curr);
   }
-
 }
-

@@ -11,10 +11,9 @@ typedef struct node {
   struct node *nxt;
 } NODE;
 
-
-NODE *new_node(Instr instr);  //cria um nó com uma instrucao
-NODE *add_last(NODE *lista_instr, Instr i); //adiciona ao fim da lista um no com uma instrucao
-void print_llist(); //imprime o conteudo da lista
-NODE *last(NODE *lista_instr); //retorna o ultimo elemento da lista
+NODE *new_node(Instr instr);                 //cria um nó com uma instrucao
+NODE *add_last(NODE *lista_instr, Instr i);  //adiciona ao fim da lista um no com uma instrucao
+void print_llist();                          //imprime o conteudo da lista
+NODE *last(NODE *lista_instr);               //retorna o ultimo elemento da lista
 
 #endif

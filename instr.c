@@ -101,9 +101,9 @@ Instr new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char de
 Instr new_instr_if(char str[]) {
   char *token, *token2;
   strtok(str, " ");
-  token = strtok(NULL, " goto ");  // token = (condition)
+  token = strtok(NULL, " goto ");
   strtok(NULL, " ");
-  token2 = strtok(NULL, "\0");  // token = LX
+  token2 = strtok(NULL, "\0");
   return (new_instr(IF, new_elem(VAR, token, 0, 0), new_elem(LABEL, token2, 0, 0), new_elem(EMPTY, NULL, 0, 0)));
 }
 
@@ -142,12 +142,8 @@ Elem is_number(char *token) {
 
 void print_instr(Instr i) {
   printf("Instruction: %d ", i.op);
-  // printf("EL1\n");
-  // printf("pos print_instr name: !%s!\n", i.elem1.contents.name);
   print_elem(i.elem1);
-  // printf("EL2\n");
   print_elem(i.elem2);
-  // printf("EL3\n");
   print_elem(i.elem3);
 }
 

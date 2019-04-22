@@ -82,19 +82,18 @@ typedef struct {
 
 extern char *keywords[SIZEKEYW];
 
-Elem new_elem(ElemKind k, char *n, int v, float f); //cria um novo elemento
-Instr new_instr(OpKind k, Elem e1, Elem e2, Elem e3); //cria nova instrucao
-Instr instrfy(char *line); //torna uma linha de codigo em instrucao
+Elem new_elem(ElemKind k, char *n, int v, float f);    //cria um novo elemento
+Instr new_instr(OpKind k, Elem e1, Elem e2, Elem e3);  //cria nova instrucao
+Instr instrfy(char *line);                             //torna uma linha de codigo em instrucao
 
 /*        Auxiliares do instrfy       */
-Instr new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char delim2[]); //instrucoes do tipo READ, PRINT E LABEL
-Instr new_instr_if(char str[]); //instrucao IF
-Instr new_instr_op(char str[], char op[], OpKind k); //operacoes aritmeticas
-Instr new_instr_atrib(char str[]);  //atribuicoes
-Elem is_number(char *token);  //retorna um elemento do tipo var ou constante(int ou float)
+Instr new_instr_RWL(char str[], OpKind opk, ElemKind elk, char delim1[], char delim2[]);  //instrucoes do tipo READ, PRINT E LABEL
+Instr new_instr_if(char str[]);                                                           //instrucao IF
+Instr new_instr_op(char str[], char op[], OpKind k);                                      //operacoes aritmeticas
+Instr new_instr_atrib(char str[]);                                                        //atribuicoes
+Elem is_number(char *token);                                                              //retorna um elemento do tipo var ou constante(int ou float)
 
-
-void print_instr(Instr i); //imprime uma instrucao
-void print_elem(Elem e);  //imprime um elemento
+void print_instr(Instr i);  //imprime uma instrucao
+void print_elem(Elem e);    //imprime um elemento
 
 #endif

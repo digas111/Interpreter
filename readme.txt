@@ -35,4 +35,4 @@ termina o programa.
 
 Notas importantes:
 labels de var's são strings com 25 carateres e não podem começar com números
-as variáveis podem guardar numeros decimais ou inteiros
+as variáveis podem guardar números decimais ou inteiros
